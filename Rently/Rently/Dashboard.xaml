@@ -2,78 +2,122 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Rently.Dashboard"
-              BackgroundColor="White"  
-             Title="Treinos">
-    
-    <ScrollView>
-    <VerticalStackLayout
-            Padding="30" Spacing="20">
+              BackgroundColor="Transparent" >
 
-            <!-- Título -->
-            <Label Text="Gerenciar seu Treinos"
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="Orange" />
-
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <Label Text="Aluguel de Serviços"
+         TextColor="orange"
+         FontAttributes="Bold"
+         FontSize="Medium"
+         Margin="15,15,0,0"/>
         
-            
-            <!-- Seção adicionar treino -->
-            <Border BackgroundColor= "White"
-                    Stroke="Gray"
-                    StrokeThickness="2"
-                    StrokeShape="RoundRectangle 8"                   
-                    Padding="10"
-                    Shadow="0,4,10,#66000000">
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="Adicionar novo treino"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           TextColor="Orange" />
-                    
-                    <!-- Picker estilizado -->
-                   
-                    <Label Text="Dia da Semana"
-                        FontAttributes="Bold"
-                        TextColor="Orange" />
+        <!-- BARRA DE BUSCA -->
+        <SearchBar Placeholder="O que você precisa hoje?"
+                   Grid.Row="1"
+                   Margin="15,15"
+                   BackgroundColor="#3A3A3A"
+                   TextColor="black"
+                   PlaceholderColor="black"
+                   CancelButtonColor="#FF7A00"/>
 
-                    <Picker x:Name="DiaSemanaPicker"
-                    Title="Selecione o dia"
-                    BackgroundColor="Gray"                            
-                    TextColor="Gray"                            
-                    HorizontalOptions="Start">
-                        <Picker.Items>
-                            <x:String>Segunda-feira</x:String>
-                            <x:String>Terça-feira</x:String>
-                            <x:String>Quarta-feira</x:String>
-                            <x:String>Quinta-feira</x:String>
-                            <x:String>Sexta-feira</x:String>
-                            <x:String>Sábado</x:String>
-                        </Picker.Items>
+        <!-- LISTA DE SERVIÇOS -->
+        <StackLayout Grid.Row="2" Padding="15" Spacing="15">
 
-                    </Picker>
+            <!-- Categorias -->
+            <Label Text="Categorias de Serviços"
+                   TextColor="orange"
+                   FontAttributes="Bold"
+                   Margin="0,0,0,0"
+                   FontSize="Micro"/>
 
+            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
+                <Frame Padding="10" BorderColor="#FF7A00" CornerRadius="10" Grid.Column="0" BackgroundColor="Transparent">
+                    <Label Text="Limpeza" TextColor="Black" HorizontalOptions="Center" />
+                </Frame>
+                <Frame Padding="10" BorderColor="#FF7A00" CornerRadius="10" Grid.Column="1" BackgroundColor="Transparent">
+                    <Label Text="Manutenção" TextColor="Black" HorizontalOptions="Center" />
+                </Frame>
+                <Frame Padding="10" BorderColor="#FF7A00" CornerRadius="10" Grid.Column="2" BackgroundColor="Transparent">
+                    <Label Text="Frete" TextColor="Black" HorizontalOptions="Center" />
+                </Frame>
+                <Frame Padding="10" BorderColor="#FF7A00" CornerRadius="10" Grid.Column="3" BackgroundColor="Transparent">
+                    <Label Text="Eventos" TextColor="Black" HorizontalOptions="Center" />
+                </Frame>
+            </Grid>
 
-                    <!-- Exercícios -->
-                    <VerticalStackLayout x:Name="ExerciciosStack"
-                                         Spacing="15" />
-                    <!-- Botão adicionar exercício -->
-                    <Button Text="+ Adicionar Exercício"
-                            Clicked="OnAdicionarExercicioClicked"
-                            BackgroundColor="Orange"
-                            TextColor="White"
-                            FontAttributes="Bold"
-                            CornerRadius="8"
-                            HeightRequest="40" />
-                    <!-- Botão salvar treino -->
-                    <Button Text="Salvar Treino"
-                            BackgroundColor="Orange"
-                            TextColor="White"
-                            FontAttributes="Bold"
-                            CornerRadius="8"
-                            HeightRequest="40" />
-                </VerticalStackLayout>
-            </Border>
-        </VerticalStackLayout>
-    </ScrollView>
+            <!-- Serviços Disponíveis -->
+            <Label Text="Serviços Disponíveis"
+                TextColor="orange"
+                FontAttributes="Bold"
+                Margin="0,0,0,0"
+                FontSize="Micro"/>
+
+            <Frame BackgroundColor="#3A3A3A"
+                   CornerRadius="10"
+                   Padding="0">
+                <StackLayout Orientation="Horizontal" Spacing="15">
+                    <Image Source="user1.png"
+                           WidthRequest="60"
+                           HeightRequest="60"/>
+                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
+                        <Label Text="João Silva"
+                               TextColor="black"
+                               FontAttributes="Bold"/>
+                        <Label Text="Manutenção - ⭐ 4.8"
+                               TextColor="black"
+                               FontSize="12"/>
+                        <Label Text="R$ 60 - 2 km"
+                               TextColor="black"
+                               FontSize="12"/>
+                    </StackLayout>
+                    <Button Text="Alugar"
+                            BackgroundColor="#FF7A00"
+                            TextColor="black"
+                            CornerRadius="8"/>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="#3A3A3A"
+                   CornerRadius="10"
+                   Padding="10">
+                <StackLayout Orientation="Horizontal" Spacing="15">
+                    <Image Source="user1.png"
+                           WidthRequest="60"
+                           HeightRequest="60"/>
+                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
+                        <Label Text="João Silva"
+                               TextColor="black"
+                               FontAttributes="Bold"/>
+                        <Label Text="Manutenção - ⭐ 4.8"
+                               TextColor="black"
+                               FontSize="12"/>
+                        <Label Text="R$ 60 - 2 km"
+                               TextColor="black"
+                               FontSize="12"/>
+                    </StackLayout>
+                    <Button Text="Alugar"
+                            BackgroundColor="#FF7A00"
+                            TextColor="black"
+                            CornerRadius="8"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+
+        <!-- MENU INFERIOR -->
+        <Grid Grid.Row="3" BackgroundColor="#1E1E1E" Padding="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ImageButton Source="home.png" Grid.Column="0" />
+            <ImageButton Source="search.png" Grid.Column="1" />
+            <ImageButton Source="heart.png" Grid.Column="2" />
+            <ImageButton Source="calendar.png" Grid.Column="3" />
+            <ImageButton Source="user.png" Grid.Column="4" />
+        </Grid>
+
+    </Grid>
 </ContentPage>
