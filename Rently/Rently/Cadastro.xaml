@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rently.Cadastro"             
+             BackgroundColor="White"             
+            Title="Cadastro">
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20">
+
+            <!-- Header com ícone e títulos -->
+            <VerticalStackLayout 
+                Spacing="20"
+                VerticalOptions="Center">
+
+                <!-- Botão voltar e ícone -->
+                <Image Source="logostudio.png" 
+                    WidthRequest="300"       
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center" 
+/>
+                <!-- Títulos -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Criar Conta"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="Orange"
+                           HorizontalOptions="Center"/>
+
+                    <Label Text="Junte-se ao Studio Aline Lotti"
+                           FontSize="16"
+                           TextColor="Gray"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Formulário -->
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Nome completo -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Nome completo"
+                           FontSize="12"
+                           TextColor="Orange"
+                           FontAttributes="Bold"/>
+
+                    <Border BackgroundColor="Transparent"
+                            StrokeShape="RoundRectangle 8"
+                            Stroke="Gray"
+                            StrokeThickness="1">
+                        <Entry Placeholder="Seu nome"
+                               FontSize="12"
+                               TextColor="Black"
+                               PlaceholderColor="Gray"
+                               BackgroundColor="Transparent"
+                               HeightRequest="50"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Email -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Email"
+                           FontSize="12"
+                           TextColor="Orange"
+                           FontAttributes="Bold"/>
+
+                    <Border BackgroundColor="Transparent"
+                            StrokeShape="RoundRectangle 8"
+                            Stroke="Gray"
+                            StrokeThickness="1">
+                        <Entry Placeholder="seu@email.com"
+                               Keyboard="Email"
+                               FontSize="12"
+                               TextColor="Black"
+                               PlaceholderColor="Gray"
+                               BackgroundColor="Transparent"
+                               HeightRequest="50"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Dividir tela em 2 colunas-->
+                <Grid ColumnSpacing="20" RowSpacing="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Telefone -->
+                    <VerticalStackLayout Spacing="5" Grid.Row="0" Grid.Column="0">
+                        <Label Text="Telefone"
+               FontSize="12"
+               TextColor="Orange"
+               FontAttributes="Bold"/>
+
+                        <Border BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 8"
+                Stroke="Gray"
+                StrokeThickness="1">
+                            <Entry Placeholder="+55 (00) 00000-0000"
+                   Keyboard="Telephone"
+                   FontSize="12"
+                   TextColor="Black"
+                   PlaceholderColor="Gray"
+                   BackgroundColor="Transparent"
+                   HeightRequest="50"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!--Data de Nascimento -->
+                    <VerticalStackLayout Spacing="5" Grid.Row="0" Grid.Column="1">
+                        <Label Text="Data de Nascimento"
+               FontSize="12"
+               TextColor="Orange"
+               FontAttributes="Bold"/>
+
+                        <Border BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 8"
+                Stroke="Gray"
+                StrokeThickness="1">
+                            <Entry Placeholder="00/00/0000"
+                   Keyboard="Numeric"
+                   FontSize="12"
+                   TextColor="Black"
+                   PlaceholderColor="Gray"
+                   BackgroundColor="Transparent"
+                   HeightRequest="50"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Senha -->
+                    <VerticalStackLayout Spacing="5" Grid.Row="1" Grid.Column="0">
+                        <Label Text="Senha"
+               FontSize="12"
+               TextColor="Orange"
+               FontAttributes="Bold"/>
+
+                        <Border BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 8"
+                Stroke="Gray"
+                StrokeThickness="1">
+                            <Grid>
+                                <Entry x:Name="SenhaEntry"
+                       Placeholder="••••••••"
+                       IsPassword="True"
+                       FontSize="12"
+                       TextColor="Black"
+                       PlaceholderColor="Gray"
+                       BackgroundColor="Transparent"
+                       HeightRequest="50"/>
+                                <Button x:Name="ToggleSenhaButton"
+                        Text="👁"
+                        FontSize="12"
+                        BackgroundColor="Transparent"
+                        TextColor="Gray"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Padding="15,0"
+                        Clicked="OnToggleSenhaButton_Clicked"/>
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Confirmar Senha -->
+                    <VerticalStackLayout Spacing="5" Grid.Row="1" Grid.Column="1">
+                        <Label Text="Confirmar senha"
+               FontSize="12"
+               TextColor="Orange"
+               FontAttributes="Bold"/>
+
+                        <Border BackgroundColor="Transparent"
+                StrokeShape="RoundRectangle 8"
+                Stroke="Gray"
+                StrokeThickness="1">
+                            <Grid>
+                                <Entry x:Name="ConfirmeSenhaEntry"
+                       Placeholder="••••••••"
+                       IsPassword="True"
+                       FontSize="12"
+                       TextColor="Black"
+                       PlaceholderColor="Gray"
+                       BackgroundColor="Transparent"
+                       HeightRequest="50"/>
+                                <Button x:Name="ToggleConfirmeSenhaButton"
+                        Text="👁"
+                        FontSize="12"
+                        BackgroundColor="Transparent"
+                        TextColor="Gray"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Padding="15,0"
+                        Clicked="OnToggleConfirmeSenhaButton_Clicked"/>
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+
+                <!-- Botão Criar Conta -->
+                <Button Text="Criar Conta"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        BackgroundColor="Orange"
+                        CornerRadius="8"
+                        HeightRequest="50"
+                        Margin="0,20,0,0"
+                        Clicked="Button_Clicked"/>
+
+                <!-- Termos de uso -->
+                <VerticalStackLayout Spacing="5" Margin="0,10,0,0">
+                    <Label HorizontalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Ao criar uma conta, você concorda com nossos "
+                                      FontSize="12"
+                                      TextColor="Gray"/>
+                                <Span Text="Termos de Uso"
+                                      FontSize="12"
+                                      TextColor="Orange"
+                                      FontAttributes="Bold"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

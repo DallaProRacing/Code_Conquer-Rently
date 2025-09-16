@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rently.Dashboard"
+              BackgroundColor="White"  
+             Title="Treinos">
+    
+    <ScrollView>
+    <VerticalStackLayout
+            Padding="30" Spacing="20">
+
+            <!-- Título -->
+            <Label Text="Gerenciar seu Treinos"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="Orange" />
+
+        
+            
+            <!-- Seção adicionar treino -->
+            <Border BackgroundColor= "White"
+                    Stroke="Gray"
+                    StrokeThickness="2"
+                    StrokeShape="RoundRectangle 8"                   
+                    Padding="10"
+                    Shadow="0,4,10,#66000000">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Adicionar novo treino"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="Orange" />
+                    
+                    <!-- Picker estilizado -->
+                   
+                    <Label Text="Dia da Semana"
+                        FontAttributes="Bold"
+                        TextColor="Orange" />
+
+                    <Picker x:Name="DiaSemanaPicker"
+                    Title="Selecione o dia"
+                    BackgroundColor="Gray"                            
+                    TextColor="Gray"                            
+                    HorizontalOptions="Start">
+                        <Picker.Items>
+                            <x:String>Segunda-feira</x:String>
+                            <x:String>Terça-feira</x:String>
+                            <x:String>Quarta-feira</x:String>
+                            <x:String>Quinta-feira</x:String>
+                            <x:String>Sexta-feira</x:String>
+                            <x:String>Sábado</x:String>
+                        </Picker.Items>
+
+                    </Picker>
+
+
+                    <!-- Exercícios -->
+                    <VerticalStackLayout x:Name="ExerciciosStack"
+                                         Spacing="15" />
+                    <!-- Botão adicionar exercício -->
+                    <Button Text="+ Adicionar Exercício"
+                            Clicked="OnAdicionarExercicioClicked"
+                            BackgroundColor="Orange"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="8"
+                            HeightRequest="40" />
+                    <!-- Botão salvar treino -->
+                    <Button Text="Salvar Treino"
+                            BackgroundColor="Orange"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="8"
+                            HeightRequest="40" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
