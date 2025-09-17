@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Rently.Perfil"
              BackgroundColor="White"
              Title="">
@@ -119,13 +120,18 @@
                                 Stroke="Gray"
                                 StrokeThickness="1">
                             <Entry x:Name="TelefoneEntry"
-                                   Placeholder="+55 (00) 00000-0000"
+                                   Placeholder="(00) 00000-0000"
                                    Keyboard="Telephone"
                                    FontSize="12"
                                    TextColor="Black"
                                    PlaceholderColor="Gray"
                                    BackgroundColor="Transparent"
-                                   HeightRequest="50" />
+                                   HeightRequest="50" >
+                                <Entry.Behaviors>
+                                    <toolkit:MaskedBehavior Mask="(XX) XXXXX-XXXX"/>
+                                </Entry.Behaviors>
+                            </Entry>
+
                         </Border>
                     </VerticalStackLayout>
 
@@ -161,12 +167,17 @@
                                 StrokeThickness="1">
                             <Entry x:Name="CpfEntry"
                                    Placeholder="000.000.000-00"
+                                   IsReadOnly="True"
                                    Keyboard="Numeric"
                                    FontSize="12"
                                    TextColor="Black"
                                    PlaceholderColor="Gray"
                                    BackgroundColor="Transparent"
-                                   HeightRequest="50" />
+                                   HeightRequest="50">
+                                    <Entry.Behaviors>
+                                        <toolkit:MaskedBehavior Mask="XXX.XXX.XXX-XX"/>
+                                    </Entry.Behaviors>
+                            </Entry>
                         </Border>
                     </VerticalStackLayout>
 
@@ -246,13 +257,6 @@
                         HeightRequest="44"
                         Clicked="Sair_Clicked" />
                    
-                
-
-                <!-- Info -->
-                <Label Text="Última atualização: "
-                       FontSize="10"
-                       TextColor="Gray"
-                       HorizontalOptions="Center" />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
