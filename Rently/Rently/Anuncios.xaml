@@ -8,7 +8,7 @@
 
         <!-- HEADER -->
         <Grid Grid.Row="0"
-              BackgroundColor="#FF7A00"
+              BackgroundColor="Orange"
               Padding="15,10,15,10"
               ColumnDefinitions="Auto,*,Auto">
 
@@ -48,7 +48,7 @@
             <StackLayout Padding="20" Spacing="20">
 
                 <!-- Botão Cadastrar Novo Serviço -->
-                <Frame BackgroundColor="#FF7A00"
+                <Frame BackgroundColor="Orange"
                        CornerRadius="15"
                        Padding="0"
                        HasShadow="True">
@@ -64,7 +64,7 @@
                 <!-- Seção Meus Serviços Ativos -->
                 <StackLayout Spacing="15">
                     <Label Text="Serviços Ativos"
-                           TextColor="#FF7A00"
+                           TextColor="Orange"
                            FontAttributes="Bold"
                            FontSize="18"/>
 
@@ -90,7 +90,7 @@
 
                                 <Label Grid.Column="1"
                                        Text="R$ 60/hora"
-                                       TextColor="#FF7A00"
+                                       TextColor="Orange"
                                        FontSize="16"
                                        FontAttributes="Bold"
                                        VerticalOptions="Center"/>
@@ -108,7 +108,7 @@
 
                                 <Button Grid.Column="1"
                                         Text="Pausar"
-                                        BackgroundColor="#FF9800"
+                                        BackgroundColor="Orange"
                                         TextColor="White"
                                         CornerRadius="10"
                                         HeightRequest="35"
@@ -127,7 +127,7 @@
                             <Grid ColumnDefinitions="*,*,*" Margin="0,10,0,0">
                                 <StackLayout Grid.Column="0" Spacing="2">
                                     <Label Text="12"
-                                           TextColor="#FF7A00"
+                                           TextColor="Orange"
                                            FontSize="18"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"/>
@@ -139,7 +139,7 @@
 
                                 <StackLayout Grid.Column="1" Spacing="2">
                                     <Label Text="4.8★"
-                                           TextColor="#FF7A00"
+                                           TextColor="Orange"
                                            FontSize="18"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"/>
@@ -151,7 +151,7 @@
 
                                 <StackLayout Grid.Column="2" Spacing="2">
                                     <Label Text="R$ 720"
-                                           TextColor="#FF7A00"
+                                           TextColor="Orange"
                                            FontSize="18"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"/>
@@ -186,7 +186,7 @@
 
                                 <Label Grid.Column="1"
                                        Text="R$ 45/hora"
-                                       TextColor="#FF7A00"
+                                       TextColor="Orange"
                                        FontSize="16"
                                        FontAttributes="Bold"
                                        VerticalOptions="Center"/>
@@ -204,7 +204,7 @@
 
                                 <Button Grid.Column="1"
                                         Text="Pausar"
-                                        BackgroundColor="#FF9800"
+                                        BackgroundColor="Orange"
                                         TextColor="White"
                                         CornerRadius="10"
                                         HeightRequest="35"
@@ -223,7 +223,7 @@
                             <Grid ColumnDefinitions="*,*,*" Margin="0,10,0,0">
                                 <StackLayout Grid.Column="0" Spacing="2">
                                     <Label Text="8"
-                                           TextColor="#FF7A00"
+                                           TextColor="Orange"
                                            FontSize="18"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"/>
@@ -235,7 +235,7 @@
 
                                 <StackLayout Grid.Column="1" Spacing="2">
                                     <Label Text="4.9★"
-                                           TextColor="#FF7A00"
+                                           TextColor="Orange"
                                            FontSize="18"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"/>
@@ -247,7 +247,7 @@
 
                                 <StackLayout Grid.Column="2" Spacing="2">
                                     <Label Text="R$ 360"
-                                           TextColor="#FF7A00"
+                                           TextColor="Orange"
                                            FontSize="18"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"/>
@@ -291,7 +291,7 @@
 
                                 <Label Grid.Column="1"
                                        Text="PAUSADO"
-                                       TextColor="#FF9800"
+                                       TextColor="Orange"
                                        FontSize="12"
                                        FontAttributes="Bold"
                                        VerticalOptions="Center"/>

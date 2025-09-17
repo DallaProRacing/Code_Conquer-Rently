@@ -11,6 +11,7 @@
             Routing.RegisterRoute("Dashboard", typeof(Dashboard));
             Routing.RegisterRoute("Perfil", typeof(Perfil));
             Routing.RegisterRoute("Produtos", typeof(Produtos));
+            Routing.RegisterRoute("Anuncios", typeof(Anuncios));
         }
     }
 }
