@@ -8,6 +8,8 @@
             Routing.RegisterRoute("Cadastro", typeof(Cadastro));
             Routing.RegisterRoute("Senha", typeof(Senha));
             Routing.RegisterRoute("Dashboard", typeof(Dashboard));
+            Routing.RegisterRoute("Perfil", typeof(Perfil));
+            Routing.RegisterRoute("Produtos", typeof(Produtos));
         }
     }
 }

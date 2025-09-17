@@ -24,7 +24,7 @@ public partial class Dashboard : ContentPage
         MenuServicos.Clicked += OnMenuItemClicked;
         MenuPedidos.Clicked += OnMenuItemClicked;
         MenuPerfil.Clicked += OnMenuItemClicked;
-        MenuConfiguracoes.Clicked += OnMenuItemClicked;
+        //MenuConfiguracoes.Clicked += OnMenuItemClicked;
         MenuSair.Clicked += OnMenuItemClicked;
     }
 
@@ -96,15 +96,15 @@ public partial class Dashboard : ContentPage
 
             // Identificar qual botão foi clicado
             if (botao == MenuInicio)
-                rota = "inicio";
+                await Shell.Current.GoToAsync("Dashboard");
             else if (botao == MenuServicos)
-                rota = "servicos";
+                await Shell.Current.GoToAsync("Dashboard");
             else if (botao == MenuPedidos)
-                rota = "pedidos";
+                await Shell.Current.GoToAsync("Dashboard");
             else if (botao == MenuPerfil)
-                rota = "perfil";
-            else if (botao == MenuConfiguracoes)
-                rota = "configuracoes";
+                await Shell.Current.GoToAsync("Perfil");
+            //  else if (botao == MenuConfiguracoes)
+            //      rota = "configuracoes";
             else if (botao == MenuSair)
                 rota = "sair";
 
