@@ -8,7 +8,7 @@ namespace Rently
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-            builder
+            builder 
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
