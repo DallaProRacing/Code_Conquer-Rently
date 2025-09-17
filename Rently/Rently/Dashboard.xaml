@@ -2,122 +2,307 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Rently.Dashboard"
-              BackgroundColor="Transparent" >
+             BackgroundColor="Transparent">
 
     <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+        <!-- HEADER -->
         <Label Text="Aluguel de Serviços"
-         TextColor="orange"
-         FontAttributes="Bold"
-         FontSize="Medium"
-         Margin="15,15,0,0"/>
-        
+               TextColor="#FF7A00"
+               FontAttributes="Bold"
+               FontSize="24"
+               Margin="20,20,20,10"
+               HorizontalOptions="Center"/>
+
         <!-- BARRA DE BUSCA -->
         <SearchBar Placeholder="O que você precisa hoje?"
                    Grid.Row="1"
-                   Margin="15,15"
-                   BackgroundColor="#3A3A3A"
-                   TextColor="black"
-                   PlaceholderColor="black"
-                   CancelButtonColor="#FF7A00"/>
+                   Margin="20,0,20,15"
+                   BackgroundColor="#F5F5F5"
+                   TextColor="#333333"
+                   PlaceholderColor="#999999"
+                   CancelButtonColor="#FF7A00"
+                   HeightRequest="45"/>
 
-        <!-- LISTA DE SERVIÇOS -->
-        <StackLayout Grid.Row="2" Padding="15" Spacing="15">
+        <!-- CONTEÚDO PRINCIPAL -->
+        <ScrollView Grid.Row="2">
+            <StackLayout Padding="20" Spacing="20">
 
-            <!-- Categorias -->
-            <Label Text="Categorias de Serviços"
-                   TextColor="orange"
-                   FontAttributes="Bold"
-                   Margin="0,0,0,0"
-                   FontSize="Micro"/>
+                <!-- CATEGORIAS -->
+                <StackLayout Spacing="15">
+                    <Label Text="Categorias de Serviços"
+                           TextColor="#FF7A00"
+                           FontAttributes="Bold"
+                           FontSize="18"/>
 
-            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
-                <Frame Padding="10" BorderColor="#FF7A00" CornerRadius="10" Grid.Column="0" BackgroundColor="Transparent">
-                    <Label Text="Limpeza" TextColor="Black" HorizontalOptions="Center" />
-                </Frame>
-                <Frame Padding="10" BorderColor="#FF7A00" CornerRadius="10" Grid.Column="1" BackgroundColor="Transparent">
-                    <Label Text="Manutenção" TextColor="Black" HorizontalOptions="Center" />
-                </Frame>
-                <Frame Padding="10" BorderColor="#FF7A00" CornerRadius="10" Grid.Column="2" BackgroundColor="Transparent">
-                    <Label Text="Frete" TextColor="Black" HorizontalOptions="Center" />
-                </Frame>
-                <Frame Padding="10" BorderColor="#FF7A00" CornerRadius="10" Grid.Column="3" BackgroundColor="Transparent">
-                    <Label Text="Eventos" TextColor="Black" HorizontalOptions="Center" />
-                </Frame>
-            </Grid>
+                    <Grid ColumnDefinitions="*,*,*,*" 
+                          ColumnSpacing="10" 
+                          RowSpacing="10">
 
-            <!-- Serviços Disponíveis -->
-            <Label Text="Serviços Disponíveis"
-                TextColor="orange"
-                FontAttributes="Bold"
-                Margin="0,0,0,0"
-                FontSize="Micro"/>
+                        <Frame Grid.Column="0" 
+                               Padding="8,10" 
+                               BorderColor="#FF7A00" 
+                               CornerRadius="12" 
+                               BackgroundColor="Transparent"
+                               HasShadow="True">
+                            <Label Text="Limpeza" 
+                                   TextColor="#333333" 
+                                   HorizontalOptions="Center"
+                                   FontSize="11"
+                                   FontAttributes="Bold"/>
+                        </Frame>
 
-            <Frame BackgroundColor="#3A3A3A"
-                   CornerRadius="10"
-                   Padding="0">
-                <StackLayout Orientation="Horizontal" Spacing="15">
-                    <Image Source="user1.png"
-                           WidthRequest="60"
-                           HeightRequest="60"/>
-                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
-                        <Label Text="João Silva"
-                               TextColor="black"
-                               FontAttributes="Bold"/>
-                        <Label Text="Manutenção - ⭐ 4.8"
-                               TextColor="black"
-                               FontSize="12"/>
-                        <Label Text="R$ 60 - 2 km"
-                               TextColor="black"
-                               FontSize="12"/>
-                    </StackLayout>
-                    <Button Text="Alugar"
-                            BackgroundColor="#FF7A00"
-                            TextColor="black"
-                            CornerRadius="8"/>
+                        <Frame Grid.Column="1" 
+                               Padding="8,10" 
+                               BorderColor="#FF7A00" 
+                               CornerRadius="12" 
+                               BackgroundColor="Transparent"
+                               HasShadow="True">
+                            <Label Text="Manutenção" 
+                                   TextColor="#333333" 
+                                   HorizontalOptions="Center"
+                                   FontSize="11"
+                                   FontAttributes="Bold"/>
+                        </Frame>
+
+                        <Frame Grid.Column="2" 
+                               Padding="8,10" 
+                               BorderColor="#FF7A00" 
+                               CornerRadius="12" 
+                               BackgroundColor="Transparent"
+                               HasShadow="True">
+                            <Label Text="Frete" 
+                                   TextColor="#333333" 
+                                   HorizontalOptions="Center"
+                                   FontSize="11"
+                                   FontAttributes="Bold"/>
+                        </Frame>
+
+                        <Frame Grid.Column="3" 
+                               Padding="8,10" 
+                               BorderColor="#FF7A00" 
+                               CornerRadius="12" 
+                               BackgroundColor="Transparent"
+                               HasShadow="True">
+                            <Label Text="Eventos" 
+                                   TextColor="#333333" 
+                                   HorizontalOptions="Center"
+                                   FontSize="11"
+                                   FontAttributes="Bold"/>
+                        </Frame>
+                    </Grid>
                 </StackLayout>
-            </Frame>
-            <Frame BackgroundColor="#3A3A3A"
-                   CornerRadius="10"
-                   Padding="10">
-                <StackLayout Orientation="Horizontal" Spacing="15">
-                    <Image Source="user1.png"
-                           WidthRequest="60"
-                           HeightRequest="60"/>
-                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
-                        <Label Text="João Silva"
-                               TextColor="black"
-                               FontAttributes="Bold"/>
-                        <Label Text="Manutenção - ⭐ 4.8"
-                               TextColor="black"
-                               FontSize="12"/>
-                        <Label Text="R$ 60 - 2 km"
-                               TextColor="black"
-                               FontSize="12"/>
-                    </StackLayout>
-                    <Button Text="Alugar"
-                            BackgroundColor="#FF7A00"
-                            TextColor="black"
-                            CornerRadius="8"/>
+
+                <!-- SERVIÇOS DISPONÍVEIS -->
+                <StackLayout Spacing="15">
+                    <Label Text="Serviços Disponíveis"
+                           TextColor="#FF7A00"
+                           FontAttributes="Bold"
+                           FontSize="18"/>
+
+                    <!-- Card João Silva -->
+                    <Frame BackgroundColor="#F5F5F5"
+                           CornerRadius="15"
+                           Padding="20"
+                           HasShadow="True"
+                           BorderColor="#E0E0E0">
+                        <StackLayout Orientation="Horizontal" Spacing="15">
+
+                            <Frame CornerRadius="30" 
+                                   Padding="0" 
+                                   BackgroundColor="Transparent"
+                                   BorderColor="#FF7A00"
+                                   WidthRequest="60" 
+                                   HeightRequest="60">
+                                <Image Source="user1.png"
+                                       WidthRequest="60"
+                                       HeightRequest="60"
+                                       Aspect="AspectFill"/>
+                            </Frame>
+
+                            <StackLayout VerticalOptions="CenterAndExpand" 
+                                         HorizontalOptions="StartAndExpand" 
+                                         Spacing="5">
+                                <Label Text="João Silva"
+                                       TextColor="#333333"
+                                       FontAttributes="Bold"
+                                       FontSize="16"/>
+                                <Label Text="Manutenção"
+                                       TextColor="#666666"
+                                       FontSize="14"/>
+                                <Label Text="R$ 60/hora"
+                                       TextColor="#FF7A00"
+                                       FontSize="14"
+                                       FontAttributes="Bold"/>
+                            </StackLayout>
+
+                            <Button Text="Alugar"
+                                    BackgroundColor="#FF7A00"
+                                    TextColor="White"
+                                    CornerRadius="20"
+                                    WidthRequest="80"
+                                    HeightRequest="40"
+                                    FontAttributes="Bold"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Card Maria Santos -->
+                    <Frame BackgroundColor="#F5F5F5"
+                           CornerRadius="15"
+                           Padding="20"
+                           HasShadow="True"
+                           BorderColor="#E0E0E0">
+                        <StackLayout Orientation="Horizontal" Spacing="15">
+
+                            <Frame CornerRadius="30" 
+                                   Padding="0" 
+                                   BackgroundColor="Transparent"
+                                   BorderColor="#FF7A00"
+                                   WidthRequest="60" 
+                                   HeightRequest="60">
+                                <Image Source="user1.png"
+                                       WidthRequest="60"
+                                       HeightRequest="60"
+                                       Aspect="AspectFill"/>
+                            </Frame>
+
+                            <StackLayout VerticalOptions="CenterAndExpand" 
+                                         HorizontalOptions="StartAndExpand" 
+                                         Spacing="5">
+                                <Label Text="Maria Santos"
+                                       TextColor="#333333"
+                                       FontAttributes="Bold"
+                                       FontSize="16"/>
+                                <Label Text="Limpeza"
+                                       TextColor="#666666"
+                                       FontSize="14"/>
+                                <Label Text="R$ 45/hora"
+                                       TextColor="#FF7A00"
+                                       FontSize="14"
+                                       FontAttributes="Bold"/>
+                            </StackLayout>
+
+                            <Button Text="Alugar"
+                                    BackgroundColor="#FF7A00"
+                                    TextColor="White"
+                                    CornerRadius="20"
+                                    WidthRequest="80"
+                                    HeightRequest="40"
+                                    FontAttributes="Bold"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Card Carlos Lima -->
+                    <Frame BackgroundColor="#F5F5F5"
+                           CornerRadius="15"
+                           Padding="20"
+                           HasShadow="True"
+                           BorderColor="#E0E0E0">
+                        <StackLayout Orientation="Horizontal" Spacing="15">
+
+                            <Frame CornerRadius="30" 
+                                   Padding="0" 
+                                   BackgroundColor="Transparent"
+                                   BorderColor="#FF7A00"
+                                   WidthRequest="60" 
+                                   HeightRequest="60">
+                                <Image Source="user1.png"
+                                       WidthRequest="60"
+                                       HeightRequest="60"
+                                       Aspect="AspectFill"/>
+                            </Frame>
+
+                            <StackLayout VerticalOptions="CenterAndExpand" 
+                                         HorizontalOptions="StartAndExpand" 
+                                         Spacing="5">
+                                <Label Text="Carlos Lima"
+                                       TextColor="#333333"
+                                       FontAttributes="Bold"
+                                       FontSize="16"/>
+                                <Label Text="Frete"
+                                       TextColor="#666666"
+                                       FontSize="14"/>
+                                <Label Text="R$ 80/viagem"
+                                       TextColor="#FF7A00"
+                                       FontSize="14"
+                                       FontAttributes="Bold"/>
+                            </StackLayout>
+
+                            <Button Text="Alugar"
+                                    BackgroundColor="#FF7A00"
+                                    TextColor="White"
+                                    CornerRadius="20"
+                                    WidthRequest="80"
+                                    HeightRequest="40"
+                                    FontAttributes="Bold"/>
+                        </StackLayout>
+                    </Frame>
                 </StackLayout>
-            </Frame>
-        </StackLayout>
+
+                <!-- Espaço extra no final -->
+                <BoxView HeightRequest="20" BackgroundColor="Transparent"/>
+
+            </StackLayout>
+        </ScrollView>
 
         <!-- MENU INFERIOR -->
-        <Grid Grid.Row="3" BackgroundColor="#1E1E1E" Padding="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <Frame Grid.Row="3" 
+               BackgroundColor="#F5F5F5" 
+               Padding="0" 
+               CornerRadius="25"
+               Margin="10,0,10,10"
+               HasShadow="True">
+            <Grid Padding="15,10" ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <ImageButton Source="home.png" Grid.Column="0" />
-            <ImageButton Source="search.png" Grid.Column="1" />
-            <ImageButton Source="heart.png" Grid.Column="2" />
-            <ImageButton Source="calendar.png" Grid.Column="3" />
-            <ImageButton Source="user.png" Grid.Column="4" />
-        </Grid>
+                <!-- Início -->
+                <Label Text="Início" 
+                       Grid.Column="0"
+                       TextColor="#FF7A00" 
+                       FontSize="12" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
 
+                <!-- Buscar -->
+                <Label Text="Buscar" 
+                       Grid.Column="1"
+                       TextColor="#999999" 
+                       FontSize="12"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+                <!-- Favoritos -->
+                <Label Text="Favoritos" 
+                       Grid.Column="2"
+                       TextColor="#999999" 
+                       FontSize="12"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+                <!-- Agenda -->
+                <Label Text="Agenda" 
+                       Grid.Column="3"
+                       TextColor="#999999" 
+                       FontSize="12"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+                <!-- Perfil -->
+                <Label Text="Perfil" 
+                       Grid.Column="4"
+                       TextColor="#999999" 
+                       FontSize="12"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+            </Grid>
+        </Frame>
     </Grid>
 </ContentPage>
