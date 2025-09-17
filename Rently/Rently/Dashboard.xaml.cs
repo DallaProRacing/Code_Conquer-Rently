@@ -1,155 +1,143 @@
 using Microsoft.Maui.Controls.Shapes;
+using System.Text.Json.Nodes;
 
 namespace Rently;
 
 public partial class Dashboard : ContentPage
 {
-    int exercicioCount = 0;
+    private bool menuAberto = false;
 
     public Dashboard()
     {
         InitializeComponent();
-        AdicionarExercicio();
 
-        // Escuta quando o tema muda (claro/escuro)
-        Application.Current.RequestedThemeChanged += (s, e) =>
+        // Conectar eventos programaticamente
+        BotaoMenu.Clicked += OnMenuButtonClicked;
+
+        // Adicionar gesture recognizer para o overlay
+        var tapGesture = new TapGestureRecognizer();
+        tapGesture.Tapped += OnOverlayTapped;
+        MenuOverlay.GestureRecognizers.Add(tapGesture);
+
+        // Conectar eventos dos botões do menu
+        MenuInicio.Clicked += OnMenuItemClicked;
+        MenuServicos.Clicked += OnMenuItemClicked;
+        MenuPedidos.Clicked += OnMenuItemClicked;
+        MenuPerfil.Clicked += OnMenuItemClicked;
+        MenuConfiguracoes.Clicked += OnMenuItemClicked;
+        MenuSair.Clicked += OnMenuItemClicked;
+    }
+
+    // ================ FUNCÇÕES MENU ================
+    // Função para alternar o menu (abrir/fechar)
+    private async void OnMenuButtonClicked(object sender, EventArgs e)
+    {
+        if (menuAberto)
         {
-            AtualizarCores();
-        };
-    }
-
-    // Cor do Label "Exercício X" (laranja no claro, branco no escuro)
-    private Color GetExercicioLabelColor()
-    {
-        return Application.Current.RequestedTheme == AppTheme.Dark
-            ? Colors.White
-            : Color.FromArgb("#FF6B35");
-    }
-
-    // Cor neutra fixa para Entry e bordas
-    private Color GetNeutralColor()
-    {
-        return Color.FromArgb("#919191");
-    }
-
-    private void OnAdicionarExercicioClicked(object sender, EventArgs e)
-    {
-        AdicionarExercicio();
-    }
-
-    private void AdicionarExercicio()
-    {
-        exercicioCount++;
-
-        var border = new Border
-        {
-            Stroke = GetNeutralColor(),
-            StrokeThickness = 1,
-            StrokeShape = new RoundRectangle { CornerRadius = 8 },
-            BackgroundColor = Colors.Transparent,
-            Padding = 10,
-            Margin = new Thickness(0, 0, 0, 10),
-
-            Content = new VerticalStackLayout
-            {
-                Spacing = 7,
-                Children =
-                {
-                    // Label "Exercício X"
-                    new Label
-                    {
-                        Text = $"Exercício {exercicioCount}",
-                        FontAttributes = FontAttributes.Bold,
-                        FontSize = 16,
-                        TextColor = GetExercicioLabelColor()
-                    },
-
-                    // Nome do exercício
-                    new Border
-                    {
-                        Stroke = GetNeutralColor(),
-                        StrokeThickness = 1,
-                        StrokeShape = new RoundRectangle { CornerRadius = 6 },
-                        BackgroundColor = Colors.Transparent,
-                        Padding = 5,
-                        Content = new Entry
-                        {
-                            Placeholder = "Nome do exercício",
-                            PlaceholderColor = GetNeutralColor(),
-                            TextColor = GetNeutralColor(),
-                            BackgroundColor = Colors.Transparent,
-                            HeightRequest = 40
-                        }
-                    },
-
-                    // Séries e Repetições lado a lado
-                    new HorizontalStackLayout
-                    {
-                        Spacing = 15,
-                        Children =
-                        {
-                            // Séries
-                            new Border
-                            {
-                                Stroke = GetNeutralColor(),
-                                StrokeThickness = 1,
-                                StrokeShape = new RoundRectangle { CornerRadius = 6 },
-                                BackgroundColor = Colors.Transparent,
-                                Padding = 5,
-                                Content = new Entry
-                                {
-                                    Placeholder = "Séries",
-                                    PlaceholderColor = GetNeutralColor(),
-                                    TextColor = GetNeutralColor(),
-                                    Keyboard = Keyboard.Numeric,
-                                    BackgroundColor = Colors.Transparent,
-                                    HeightRequest = 40
-                                }
-                            },
-
-                            // Repetições
-                            new Border
-                            {
-                                Stroke = GetNeutralColor(),
-                                StrokeThickness = 1,
-                                StrokeShape = new RoundRectangle { CornerRadius = 6 },
-                                BackgroundColor = Colors.Transparent,
-                                Padding = 5,
-                               
-                                Content = new Entry
-                                {
-                                    Placeholder = "Repetições ex: 12-15",
-                                    PlaceholderColor = GetNeutralColor(),
-                                    TextColor = GetNeutralColor(),
-                                    Keyboard = Keyboard.Numeric,
-                                    BackgroundColor = Colors.Transparent,
-                                    HeightRequest = 40,
-                                    
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        };
-
-        ExerciciosStack.Children.Add(border);
-    }
-
-    // Atualiza as cores quando o tema muda
-    private void AtualizarCores()
-    {
-        foreach (var child in ExerciciosStack.Children)
-        {
-            if (child is Border border && border.Content is Layout layout)
-            {
-                foreach (var item in layout.Children)
-                {
-                    // Apenas atualiza o Label "Exercício X"
-                    if (item is Label lbl)
-                        lbl.TextColor = GetExercicioLabelColor();
-                }
-            }
+            await FecharMenu();
         }
+        else
+        {
+            await AbrirMenu();
+        }
+    }
+
+    // Função para abrir o menu
+    private async Task AbrirMenu()
+    {
+        menuAberto = true;
+
+        // Mostra o overlay e o menu
+        MenuOverlay.IsVisible = true;
+        MenuLateral.IsVisible = true;
+
+        // Animações simultâneas
+        var animacaoMenu = MenuLateral.TranslateTo(0, 0, 250, Easing.CubicOut);
+        var animacaoOverlay = MenuOverlay.FadeTo(0.5, 250);
+
+        await Task.WhenAll(animacaoMenu, animacaoOverlay);
+
+        Console.WriteLine("Menu aberto");
+    }
+
+    // Função para fechar o menu
+    private async Task FecharMenu()
+    {
+        menuAberto = false;
+
+        // Animações simultâneas
+        var animacaoMenu = MenuLateral.TranslateTo(-280, 0, 200, Easing.CubicIn);
+        var animacaoOverlay = MenuOverlay.FadeTo(0, 200);
+
+        await Task.WhenAll(animacaoMenu, animacaoOverlay);
+
+        // Esconde os elementos após a animação
+        MenuOverlay.IsVisible = false;
+        MenuLateral.IsVisible = false;
+
+        Console.WriteLine("Menu fechado");
+    }
+
+    // Função chamada quando o usuário clica no overlay (fundo escuro)
+    private async void OnOverlayTapped(object sender, EventArgs e)
+    {
+        if (menuAberto)
+        {
+            await FecharMenu();
+        }
+    }
+
+    // Função para lidar com os cliques nos itens do menu
+    private async void OnMenuItemClicked(object sender, EventArgs e)
+    {
+        if (sender is Button botao)
+        {
+            string rota = "desconhecido";
+
+            // Identificar qual botão foi clicado
+            if (botao == MenuInicio)
+                rota = "inicio";
+            else if (botao == MenuServicos)
+                rota = "servicos";
+            else if (botao == MenuPedidos)
+                rota = "pedidos";
+            else if (botao == MenuPerfil)
+                rota = "perfil";
+            else if (botao == MenuConfiguracoes)
+                rota = "configuracoes";
+            else if (botao == MenuSair)
+                rota = "sair";
+
+            // Fecha o menu primeiro
+            await FecharMenu();
+
+            // Depois navega
+            navegacaoMenu(rota);
+        }
+    }
+
+    // ================ FUNCÇÕES BACKEND ================
+    private void navegacaoMenu(String rota)
+    {
+        Console.WriteLine("navegacao rotas==> " + rota);
+    }
+
+    private JsonArray ListarServicos()
+    {
+        JsonArray servico = new JsonArray();
+        return servico;
+    }
+
+    private string alugarServico(JsonArray servico)
+    {
+        Console.WriteLine("Serviço==> " + servico);
+        return "Serviço alugado com sucesso!";
+    }
+
+    private JsonArray buscarServico(String valor)
+    {
+        Console.WriteLine("Valor de busca==> " + valor);
+        JsonArray servico = new JsonArray();
+        return servico;
     }
 }
