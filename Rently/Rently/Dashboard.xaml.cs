@@ -21,8 +21,8 @@ public partial class Dashboard : ContentPage
 
         // Conectar eventos dos botões do menu
         MenuInicio.Clicked += OnMenuItemClicked;
-        MenuServicos.Clicked += OnMenuItemClicked;
-        MenuPedidos.Clicked += OnMenuItemClicked;
+        Anuncios.Clicked += OnMenuItemClicked;
+        
         MenuPerfil.Clicked += OnMenuItemClicked;
         //MenuConfiguracoes.Clicked += OnMenuItemClicked;
         MenuSair.Clicked += OnMenuItemClicked;
@@ -97,10 +97,8 @@ public partial class Dashboard : ContentPage
             // Identificar qual botão foi clicado
             if (botao == MenuInicio)
                 await Shell.Current.GoToAsync("Dashboard");
-            else if (botao == MenuServicos)
-                await Shell.Current.GoToAsync("Dashboard");
-            else if (botao == MenuPedidos)
-                await Shell.Current.GoToAsync("Dashboard");
+            else if (botao == Anuncios)
+                await Shell.Current.GoToAsync("Anuncios");
             else if (botao == MenuPerfil)
                 await Shell.Current.GoToAsync("Perfil");
             //  else if (botao == MenuConfiguracoes)

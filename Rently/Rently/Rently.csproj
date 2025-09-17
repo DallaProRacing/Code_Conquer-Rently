@@ -72,6 +72,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="Anuncios.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Cadastro.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
