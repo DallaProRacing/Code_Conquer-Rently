@@ -23,7 +23,7 @@
 
             <StackLayout Spacing="0">
                 <!-- Header do Menu -->
-                <StackLayout BackgroundColor="#FF7A00" 
+                <StackLayout BackgroundColor="Orange" 
                            Padding="20,15,20,15" 
                            Spacing="10">
                     <Label Text="Menu Principal"
@@ -78,7 +78,7 @@
                     <Button x:Name="MenuSair"
                             Text="Sair"
                             BackgroundColor="Transparent"
-                            TextColor="#FF4444"
+                            TextColor="Orange"
                             HorizontalOptions="FillAndExpand"
                             HeightRequest="60"
                             FontSize="16"/>
@@ -97,7 +97,7 @@
 
         <!-- MENU HEADER -->
         <Grid Grid.Row="0" 
-              BackgroundColor="#FF7A00" 
+              BackgroundColor="Orange" 
               Padding="5,5,5,5"
               ColumnDefinitions="Auto,*,Auto,Auto,Auto"
               ZIndex="1">
@@ -130,7 +130,7 @@
                    BackgroundColor="#F5F5F5"
                    TextColor="#333333"
                    PlaceholderColor="#999999"
-                   CancelButtonColor="#FF7A00"
+                   CancelButtonColor="Orange"
                    HeightRequest="45"/>
 
         <!-- CONTEÚDO PRINCIPAL -->
@@ -140,7 +140,7 @@
                 <!-- CATEGORIAS -->
                 <StackLayout Spacing="15">
                     <Label Text="Categorias de Serviços"
-                           TextColor="#FF7A00"
+                           TextColor="Orange"
                            FontAttributes="Bold"
                            FontSize="18"/>
 
@@ -150,7 +150,7 @@
 
                         <Frame Grid.Column="0" 
                                Padding="6,8" 
-                               BorderColor="#FF7A00" 
+                               BorderColor="Orange" 
                                CornerRadius="8" 
                                BackgroundColor="Transparent"
                                HasShadow="True"
@@ -165,7 +165,7 @@
 
                         <Frame Grid.Column="1" 
                                Padding="6,8" 
-                               BorderColor="#FF7A00" 
+                               BorderColor="Orange" 
                                CornerRadius="8" 
                                BackgroundColor="Transparent"
                                HasShadow="True"
@@ -180,7 +180,7 @@
 
                         <Frame Grid.Column="2" 
                                Padding="6,8" 
-                               BorderColor="#FF7A00" 
+                               BorderColor="Orange" 
                                CornerRadius="8" 
                                BackgroundColor="Transparent"
                                HasShadow="True"
@@ -195,7 +195,7 @@
 
                         <Frame Grid.Column="3" 
                                Padding="6,8" 
-                               BorderColor="#FF7A00" 
+                               BorderColor="Orange" 
                                CornerRadius="8" 
                                BackgroundColor="Transparent"
                                HasShadow="True"
@@ -213,7 +213,7 @@
                 <!-- SERVIÇOS DISPONÍVEIS -->
                 <StackLayout Spacing="15">
                     <Label Text="Serviços Disponíveis"
-                           TextColor="#FF7A00"
+                           TextColor="Orange"
                            FontAttributes="Bold"
                            FontSize="18"/>
 
@@ -228,7 +228,7 @@
                             <Frame CornerRadius="30" 
                                    Padding="0" 
                                    BackgroundColor="Transparent"
-                                   BorderColor="#FF7A00"
+                                   BorderColor="Orange"
                                    WidthRequest="60" 
                                    HeightRequest="60">
                                 <Image Source="user1.png"
@@ -248,13 +248,13 @@
                                        TextColor="#666666"
                                        FontSize="14"/>
                                 <Label Text="R$ 60/hora"
-                                       TextColor="#FF7A00"
+                                       TextColor="Orange"
                                        FontSize="14"
                                        FontAttributes="Bold"/>
                             </StackLayout>
 
                             <Button Text="Alugar"
-                                    BackgroundColor="#FF7A00"
+                                    BackgroundColor="Orange"
                                     TextColor="White"
                                     CornerRadius="20"
                                     WidthRequest="80"
@@ -274,7 +274,7 @@
                             <Frame CornerRadius="30" 
                                    Padding="0" 
                                    BackgroundColor="Transparent"
-                                   BorderColor="#FF7A00"
+                                   BorderColor="Orange"
                                    WidthRequest="60" 
                                    HeightRequest="60">
                                 <Image Source="user1.png"
@@ -294,13 +294,13 @@
                                        TextColor="#666666"
                                        FontSize="14"/>
                                 <Label Text="R$ 45/hora"
-                                       TextColor="#FF7A00"
+                                       TextColor="Orange"
                                        FontSize="14"
                                        FontAttributes="Bold"/>
                             </StackLayout>
 
                             <Button Text="Alugar"
-                                    BackgroundColor="#FF7A00"
+                                    BackgroundColor="Orange"
                                     TextColor="White"
                                     CornerRadius="20"
                                     WidthRequest="80"
@@ -320,7 +320,7 @@
                             <Frame CornerRadius="30" 
                                    Padding="0" 
                                    BackgroundColor="Transparent"
-                                   BorderColor="#FF7A00"
+                                   BorderColor="Orange"
                                    WidthRequest="60" 
                                    HeightRequest="60">
                                 <Image Source="user1.png"
@@ -340,13 +340,13 @@
                                        TextColor="#666666"
                                        FontSize="14"/>
                                 <Label Text="R$ 80/viagem"
-                                       TextColor="#FF7A00"
+                                       TextColor="Orange"
                                        FontSize="14"
                                        FontAttributes="Bold"/>
                             </StackLayout>
 
                             <Button Text="Alugar"
-                                    BackgroundColor="#FF7A00"
+                                    BackgroundColor="Orange"
                                     TextColor="White"
                                     CornerRadius="20"
                                     WidthRequest="80"
