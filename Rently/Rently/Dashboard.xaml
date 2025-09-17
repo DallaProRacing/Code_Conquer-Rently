@@ -279,7 +279,7 @@
                        VerticalOptions="Center"/>
 
                 <!-- Favoritos -->
-                <Label Text="Favoritos" 
+                <Label Text="Lojas" 
                        Grid.Column="2"
                        TextColor="#999999" 
                        FontSize="12"
