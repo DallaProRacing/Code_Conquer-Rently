@@ -74,6 +74,9 @@
 		<MauiXaml Update="Cadastro.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Perfil.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Senha.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
