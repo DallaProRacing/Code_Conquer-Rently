@@ -2,253 +2,160 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Rently.Dashboard"
-             BackgroundColor="white"
-             >
-    
-    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+             BackgroundColor="White">
 
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
 
+            <!-- BARRA DE BUSCA -->
+            <SearchBar x:Name="SearchBarServicos"
+                       Placeholder="O que você precisa hoje?"
+                       BackgroundColor="#F5F5F5"
+                       TextColor="#333333"
+                       PlaceholderColor="#999999"
+                       CancelButtonColor="Orange"
+                       HeightRequest="45"
+                       SearchButtonPressed="OnSearchButtonPressed"/>
 
-        <!-- BARRA DE BUSCA -->
-        <SearchBar Grid.Row="2"
-                   Placeholder="O que você precisa hoje?"
-                   Margin="15,15,15,15"
-                   BackgroundColor="#F5F5F5"
-                   TextColor="#333333"
-                   PlaceholderColor="#999999"
-                   CancelButtonColor="Orange"
-                   HeightRequest="45"/>
+            <!-- CATEGORIAS -->
+            <StackLayout Spacing="15">
+                <Label Text="Categorias de Serviços"
+                       TextColor="Orange"
+                       FontAttributes="Bold"
+                       FontSize="18"/>
 
-        <!-- CONTEÚDO PRINCIPAL -->
-        <ScrollView Grid.Row="3">
-            <StackLayout Padding="20" Spacing="20">
+                <!-- Loading indicator para categorias -->
+                <ActivityIndicator IsVisible="{Binding Carregando}" 
+                                 IsRunning="{Binding Carregando}" 
+                                 Color="Orange"/>
 
-                <!-- CATEGORIAS -->
-                <StackLayout Spacing="15">
-                    <Label Text="Categorias de Serviços"
-                           TextColor="Orange"
-                           FontAttributes="Bold"
-                           FontSize="18"/>
-
-                    <Grid ColumnDefinitions="*,*,*,*" 
-                          ColumnSpacing="8" 
-                          RowSpacing="8">
-
-                        <Frame Grid.Column="0" 
-                               Padding="6,8" 
-                               BorderColor="Orange" 
-                               CornerRadius="8" 
-                               BackgroundColor="Transparent"
-                               HasShadow="True"
-                               HeightRequest="35">
-                            <Label Text="Limpeza" 
-                                   TextColor="#333333" 
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   FontSize="10"
-                                   FontAttributes="Bold"/>
-                        </Frame>
-
-                        <Frame Grid.Column="1" 
-                               Padding="6,8" 
-                               BorderColor="Orange" 
-                               CornerRadius="8" 
-                               BackgroundColor="Transparent"
-                               HasShadow="True"
-                               HeightRequest="35">
-                            <Label Text="Manutenção" 
-                                   TextColor="#333333" 
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   FontSize="10"
-                                   FontAttributes="Bold"/>
-                        </Frame>
-
-                        <Frame Grid.Column="2" 
-                               Padding="6,8" 
-                               BorderColor="Orange" 
-                               CornerRadius="8" 
-                               BackgroundColor="Transparent"
-                               HasShadow="True"
-                               HeightRequest="35">
-                            <Label Text="Frete" 
-                                   TextColor="#333333" 
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   FontSize="10"
-                                   FontAttributes="Bold"/>
-                        </Frame>
-
-                        <Frame Grid.Column="3" 
-                               Padding="6,8" 
-                               BorderColor="Orange" 
-                               CornerRadius="8" 
-                               BackgroundColor="Transparent"
-                               HasShadow="True"
-                               HeightRequest="35">
-                            <Label Text="Eventos" 
-                                   TextColor="#333333" 
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   FontSize="10"
-                                   FontAttributes="Bold"/>
-                        </Frame>
-                    </Grid>
-                </StackLayout>
-
-                <!-- SERVIÇOS DISPONÍVEIS -->
-                <StackLayout Spacing="15">
-                    <Label Text="Serviços Disponíveis"
-                           TextColor="Orange"
-                           FontAttributes="Bold"
-                           FontSize="18"/>
-
-                    <!-- Card João Silva -->
-                    <Frame BackgroundColor="#F5F5F5"
-                           CornerRadius="15"
-                           Padding="20"
-                           HasShadow="True"
-                           BorderColor="#E0E0E0">
-                        <StackLayout Orientation="Horizontal" Spacing="15">
-
-                            <Frame CornerRadius="30" 
-                                   Padding="0" 
+                <!-- Grid dinâmico para categorias -->
+                <CollectionView ItemsSource="{Binding Categorias}"
+                               BackgroundColor="Transparent">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" 
+                                       Span="2" 
+                                       HorizontalItemSpacing="10" 
+                                       VerticalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="10" 
+                                   BorderColor="Orange" 
+                                   CornerRadius="8" 
                                    BackgroundColor="Transparent"
-                                   BorderColor="Orange"
-                                   WidthRequest="60" 
-                                   HeightRequest="60">
-                                <Image Source="user1.png"
-                                       WidthRequest="60"
-                                       HeightRequest="60"
-                                       Aspect="AspectFill"/>
-                            </Frame>
-
-                            <StackLayout VerticalOptions="CenterAndExpand" 
-                                         HorizontalOptions="StartAndExpand" 
-                                         Spacing="5">
-                                <Label Text="João Silva"
-                                       TextColor="#333333"
-                                       FontAttributes="Bold"
-                                       FontSize="16"/>
-                                <Label Text="Manutenção"
-                                       TextColor="#666666"
-                                       FontSize="14"/>
-                                <Label Text="R$ 60/hora"
-                                       TextColor="Orange"
-                                       FontSize="14"
+                                   HasShadow="True"
+                                   HeightRequest="50">
+                                <Label Text="{Binding nomeCategoria}" 
+                                       TextColor="#333333" 
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       FontSize="12"
                                        FontAttributes="Bold"/>
-                            </StackLayout>
-
-                            <Button Text="Alugar"
-                                    BackgroundColor="Orange"
-                                    TextColor="White"
-                                    CornerRadius="20"
-                                    WidthRequest="80"
-                                    HeightRequest="40"
-                                    FontAttributes="Bold"
-                            Clicked="VerDetalhes"/>
-                        </StackLayout>
-                    </Frame>
-
-                    <!-- Card Maria Santos -->
-                    <Frame BackgroundColor="#F5F5F5"
-                           CornerRadius="15"
-                           Padding="20"
-                           HasShadow="True"
-                           BorderColor="#E0E0E0">
-                        <StackLayout Orientation="Horizontal" Spacing="15">
-
-                            <Frame CornerRadius="30" 
-                                   Padding="0" 
-                                   BackgroundColor="Transparent"
-                                   BorderColor="Orange"
-                                   WidthRequest="60" 
-                                   HeightRequest="60">
-                                <Image Source="user1.png"
-                                       WidthRequest="60"
-                                       HeightRequest="60"
-                                       Aspect="AspectFill"/>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                        Tapped="OnCategoriaTapped"/>
+                                </Frame.GestureRecognizers>
                             </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-                            <StackLayout VerticalOptions="CenterAndExpand" 
-                                         HorizontalOptions="StartAndExpand" 
-                                         Spacing="5">
-                                <Label Text="Maria Santos"
-                                       TextColor="#333333"
-                                       FontAttributes="Bold"
-                                       FontSize="16"/>
-                                <Label Text="Limpeza"
-                                       TextColor="#666666"
-                                       FontSize="14"/>
-                                <Label Text="R$ 45/hora"
-                                       TextColor="Orange"
-                                       FontSize="14"
-                                       FontAttributes="Bold"/>
-                            </StackLayout>
-
-                            <Button Text="Alugar"
-                                    BackgroundColor="Orange"
-                                    TextColor="White"
-                                    CornerRadius="20"
-                                    WidthRequest="80"
-                                    HeightRequest="40"
-                                    FontAttributes="Bold"
-                            Clicked="VerDetalhes"/>
-                        </StackLayout>
-                    </Frame>
-
-                    <!-- Card Carlos Lima -->
-                    <Frame BackgroundColor="#F5F5F5"
-                           CornerRadius="15"
-                           Padding="20"
-                           HasShadow="True"
-                           BorderColor="#E0E0E0">
-                        <StackLayout Orientation="Horizontal" Spacing="15">
-
-                            <Frame CornerRadius="30" 
-                                   Padding="0" 
-                                   BackgroundColor="Transparent"
-                                   BorderColor="Orange"
-                                   WidthRequest="60" 
-                                   HeightRequest="60">
-                                <Image Source="user1.png"
-                                       WidthRequest="60"
-                                       HeightRequest="60"
-                                       Aspect="AspectFill"/>
-                            </Frame>
-
-                            <StackLayout VerticalOptions="CenterAndExpand" 
-                                         HorizontalOptions="StartAndExpand" 
-                                         Spacing="5">
-                                <Label Text="Carlos Lima"
-                                       TextColor="#333333"
-                                       FontAttributes="Bold"
-                                       FontSize="16"/>
-                                <Label Text="Frete"
-                                       TextColor="#666666"
-                                       FontSize="14"/>
-                                <Label Text="R$ 80/viagem"
-                                       TextColor="Orange"
-                                       FontSize="14"
-                                       FontAttributes="Bold"/>
-                            </StackLayout>
-
-                            <Button Text="Alugar"
-                                    BackgroundColor="Orange"
-                                    TextColor="White"
-                                    CornerRadius="20"
-                                    WidthRequest="80"
-                                    HeightRequest="40"
-                                    FontAttributes="Bold"
-                            Clicked="VerDetalhes"/>
-                        </StackLayout>
-                    </Frame>
-                </StackLayout>
-
-                <!-- Espaço extra no final -->
-                <BoxView HeightRequest="20" BackgroundColor="Transparent"/>
-
+                <!-- Mensagem quando não há categorias -->
+                <Label Text="Nenhuma categoria encontrada" 
+                       TextColor="#999999"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding MostrarMensagemVazia}"/>
             </StackLayout>
-        </ScrollView>
-    </Grid>
+
+            <!-- PRODUTOS DISPONÍVEIS -->
+            <StackLayout Spacing="15">
+                <Label Text="Produtos Disponíveis"
+                       TextColor="Orange"
+                       FontAttributes="Bold"
+                       FontSize="18"/>
+
+                <!-- Cards dinâmicos para produtos -->
+                <CollectionView ItemsSource="{Binding Produtos}"
+                               BackgroundColor="Transparent"
+                               ItemSizingStrategy="MeasureAllItems"
+                               VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Spacing="0" Margin="0,0,0,20">
+                                <Frame BackgroundColor="#F9F9F9"
+                                       CornerRadius="15"
+                                       Padding="20"
+                                       HasShadow="True"
+                                       BorderColor="Orange"
+                                       Margin="0">
+                                    <StackLayout Spacing="10">
+                                        <!-- Nome do produto -->
+                                        <Label Text="{Binding nomeProduto}"
+                                               TextColor="#333333"
+                                               FontAttributes="Bold"
+                                               FontSize="18"/>
+
+                                        <!-- Informações do produto -->
+                                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" 
+                                                   Text="{Binding idProduto, StringFormat='ID: {0}'}"
+                                                   TextColor="#666666"
+                                                   FontSize="12"/>
+                                            <Label Grid.Row="0" Grid.Column="1" 
+                                                   Text="{Binding idLoja, StringFormat='Loja: {0}'}"
+                                                   TextColor="#666666"
+                                                   FontSize="12"/>
+
+                                            <Label Grid.Row="1" Grid.Column="0" 
+                                                   Text="{Binding idCategoria, StringFormat='Categoria: {0}'}"
+                                                   TextColor="#666666"
+                                                   FontSize="12"/>
+                                            <Label Grid.Row="1" Grid.Column="1" 
+                                                   Text="{Binding idVendaAluguel, StringFormat='Tipo: {0}'}"
+                                                   TextColor="#666666"
+                                                   FontSize="12"/>
+                                        </Grid>
+
+                                        <!-- Preço e botão -->
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding precoProduto, StringFormat='R$ {0:F2}'}"
+                                                   TextColor="Orange"
+                                                   FontSize="20"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center"/>
+
+                                            <Button Grid.Column="1"
+                                                    Text="Ação"
+                                                    TextColor="White"
+                                                    BackgroundColor="Orange"
+                                                    CornerRadius="20"
+                                                    WidthRequest="100"
+                                                    HeightRequest="40"
+                                                    FontAttributes="Bold"
+                                                    CommandParameter="{Binding .}"
+                                                    Clicked="OnAlugarClicked"/>
+                                        </Grid>
+                                    </StackLayout>
+                                </Frame>
+                                <!-- Espaçador invisível -->
+                                <BoxView HeightRequest="10" BackgroundColor="Transparent"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Mensagem quando não há produtos -->
+                <Label Text="Nenhum produto disponível no momento" 
+                       TextColor="#999999"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding MostrarMensagemVaziaProdutos}"/>
+            </StackLayout>
+
+            <!-- Espaço extra no final -->
+            <BoxView HeightRequest="20" BackgroundColor="Transparent"/>
+
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
