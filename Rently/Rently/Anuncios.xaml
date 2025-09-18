@@ -30,43 +30,6 @@
                            TextColor="Orange"
                            FontAttributes="Bold"
                            FontSize="18"/>
-        <!-- HEADER -->
-        <Grid Grid.Row="0"
-              BackgroundColor="Orange"
-              Padding="15,10,15,10"
-              ColumnDefinitions="Auto,*,Auto">
-
-            <!-- Botão Voltar -->
-            <Button x:Name="BotaoVoltar"
-                    Grid.Column="0"
-                    Text="←"
-                    BackgroundColor="Transparent"
-                    TextColor="White"
-                    FontSize="24"
-                    WidthRequest="40"
-                    HeightRequest="40"/>
-
-            <!-- Título -->
-            <Label Grid.Column="1"
-                   Text="Meus Serviços"
-                   TextColor="White"
-                   FontAttributes="Bold"
-                   FontSize="20"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"/>
-
-            <!-- Botão Adicionar -->
-            <Button x:Name="BotaoAdicionar"
-                    Grid.Column="2"
-                    Text="+"
-                    BackgroundColor="Transparent"
-                    TextColor="White"
-                    FontSize="24"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    ToolTipProperties.Text="Cadastrar novo serviço"/>
-        </Grid>
-
 
                     <!-- Card Serviço 1 -->
                     <Frame BackgroundColor="#F5F5F5"
