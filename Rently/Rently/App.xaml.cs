@@ -21,6 +21,8 @@
                 appWindow.Resize(new Windows.Graphics.SizeInt32(WindowWidth, WindowHeight));
 #endif
             });
+
+            Current.UserAppTheme = AppTheme.Light;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
