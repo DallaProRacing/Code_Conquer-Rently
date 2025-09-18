@@ -39,7 +39,7 @@
                     StrokeThickness="1">
                     <Grid>
                         <Entry x:Name="SenhaEntry"
-                            Placeholder="••••••••"
+                            Placeholder=""
                             IsPassword="True"
                             FontSize="12"
                             TextColor="Black"
