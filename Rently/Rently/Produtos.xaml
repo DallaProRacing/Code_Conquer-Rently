@@ -44,11 +44,10 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="5">
-
                     <Grid ColumnSpacing="20">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="3.5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <!-- Preço -->
@@ -66,30 +65,53 @@
                                PlaceholderColor="Gray"
                                BackgroundColor="Transparent"
                                HeightRequest="50"
-                                       TextChanged="EntryPreco_TextChanged"
-                                       />
-
-
+                                       TextChanged="EntryPreco_TextChanged"/>
                             </Border>
                         </VerticalStackLayout>
 
                         <!-- Categoria -->
                         <VerticalStackLayout Spacing="5" Grid.Column="1">
-                            <Label Text="Categoria *"
-                           FontSize="12"
-                           TextColor="Black"
-                           FontAttributes="Bold"/>
+                            <Grid ColumnSpacing="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="Categoria *"
+                                       Grid.Column="0"
+                                       FontSize="12"
+                                       TextColor="Black"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center"/>
+
+                            </Grid>
+
                             <Border Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8">
-                                <Entry x:Name="EntryCategoria"
-                               Placeholder="Ex: Esporte, Móveis..."
-                               FontSize="12"
-                               TextColor="Black"
-                               PlaceholderColor="Gray"
-                               BackgroundColor="Transparent"
-                               HeightRequest="50"/>
+                                <Picker x:Name="PickerCategoria"
+                                        FontSize="12"
+                                        TextColor="Black"
+                                        BackgroundColor="Transparent"
+                                        HeightRequest="50"
+                                        HorizontalOptions="FillAndExpand"/>
                             </Border>
                         </VerticalStackLayout>
                     </Grid>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Descrição do Produto *"
+           FontSize="12"
+           TextColor="Black"
+           FontAttributes="Bold"/>
+                    <Border Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8">
+                        <Entry x:Name="EntryDescricaoProduto"
+               Placeholder="Ex: Serve em ..."
+               FontSize="12"
+               TextColor="Black"
+               PlaceholderColor="Gray"
+               BackgroundColor="Transparent"
+               HeightRequest="50"/>
+                    </Border>
                 </VerticalStackLayout>
 
                 <!-- Tipo (Aluguel ou Venda) - Toggle -->
@@ -110,7 +132,7 @@
                                 x:Name="AluguelBorder"
                                 Stroke="Gray" 
                                 StrokeThickness="2" 
-                                StrokeShape="RoundRectangle 0,5,0,5"
+                                StrokeShape="RoundRectangle 8,0,0,8"
                                 BackgroundColor="DarkGray">
                             <Button Text="Aluguel"
                                     FontSize="14"
@@ -126,7 +148,7 @@
                                 x:Name="VendaBorder"
                                 Stroke="Gray" 
                                 StrokeThickness="2" 
-                                StrokeShape="RoundRectangle 5,0,5,0"
+                                StrokeShape="RoundRectangle 0,8,8,0"
                                 BackgroundColor="Transparent">
                             <Button Text="Venda"
                                     FontSize="14"
@@ -139,7 +161,6 @@
                         </Border>
                     </Grid>
                 </VerticalStackLayout>
-
 
                 <!-- Rua e Número lado a lado -->
                 <Grid ColumnSpacing="20">
@@ -190,7 +211,6 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
 
-
                     <!-- Bairro -->
                     <VerticalStackLayout Spacing="5" Grid.Column="0">
                         <Label Text="Bairro *"
@@ -207,7 +227,6 @@
                                HeightRequest="50"/>
                         </Border>
                     </VerticalStackLayout>
-
 
                     <!-- CEP -->
                     <VerticalStackLayout Spacing="5" Grid.Column="1">
@@ -273,29 +292,7 @@
                         </Border>
                     </VerticalStackLayout>
 
-
                 </Grid>
-
-                <VerticalStackLayout Spacing="5">
-                    <Label Text="Telefone *"
-                           FontSize="12"
-                           TextColor="Black"
-                           FontAttributes="Bold"/>
-                    <Border Stroke="Gray" StrokeThickness="1" StrokeShape="RoundRectangle 8">
-                        <Entry x:Name="EntryTelefone"
-                               Placeholder="(00) 00000-0000"
-                               Keyboard="Numeric"
-                               FontSize="12"
-                               TextColor="Black"
-                               PlaceholderColor="Gray"
-                               BackgroundColor="Transparent"
-                               HeightRequest="50">
-                            <Entry.Behaviors>
-                                <toolkit:MaskedBehavior Mask="(XX) XXXXX-XXXX" />
-                            </Entry.Behaviors>
-                        </Entry>
-                    </Border>
-                </VerticalStackLayout>
 
                 <!-- Botão Cadastrar -->
                 <Grid>

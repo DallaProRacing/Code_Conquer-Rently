@@ -18,6 +18,11 @@ public partial class Dashboard : ContentPage
 
    
 
+    private async void VerDetalhes(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("Detalhes");
+    }
+
     // ================ FUNCÇÕES BACKEND ================
     private void navegacaoMenu(String rota)
     {
