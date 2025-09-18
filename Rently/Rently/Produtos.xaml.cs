@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
 
-
 namespace Rently
 {
     public partial class Produtos : ContentPage
@@ -16,7 +15,7 @@ namespace Rently
         private int idCategoria = 1;   // Será dinâmico baseado na categoria escolhida
         private int? idEndereco = null; // Pode ser null se não tiver endereço cadastrado
         private string unidadeDePreco = "dia"; // "dia", "mês", "unidade", etc.
-        
+
         private bool isAluguelSelected = true; // Aluguel é selecionado por padrão
         private bool _isUpdating = false;
 
@@ -26,7 +25,14 @@ namespace Rently
         public Produtos()
         {
             InitializeComponent();
-            _ = CarregarCategoriasAsync(); // Chama de forma assíncrona
+            // Carrega categorias de forma mais segura
+            Loaded += OnPageLoaded;
+        }
+
+        // Evento quando a página é carregada
+        private async void OnPageLoaded(object sender, EventArgs e)
+        {
+            await CarregarCategoriasAsync();
         }
 
         // Classe para mapear o retorno da API de categorias
@@ -44,63 +50,100 @@ namespace Rently
                 client.Timeout = TimeSpan.FromSeconds(30);
 
                 var response = await client.GetAsync(apiUrlCategorias);
-                
+
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
                     var categoriasApi = JsonConvert.DeserializeObject<List<Categoria>>(json);
-                    
-                    // Limpa as categorias atuais
-                    categorias.Clear();
-                    PickerCategoria.Items.Clear();
-                    
-                    // Adiciona item padrão
-                    PickerCategoria.Items.Add("Selecione uma categoria");
-                    categorias.Add(new Categoria { idCategoria = 0, nomeCategoria = "Selecione uma categoria" });
-                    
-                    // Adiciona categorias da API
-                    foreach (var categoria in categoriasApi)
+
+                    // Executa no thread principal
+                    await MainThread.InvokeOnMainThreadAsync(() =>
                     {
-                        PickerCategoria.Items.Add(categoria.nomeCategoria);
-                        categorias.Add(categoria);
-                    }
-                    
-                    // Define o primeiro item como selecionado por padrão
-                    PickerCategoria.SelectedIndex = 0;
+                        // Limpa as categorias atuais
+                        categorias.Clear();
+                        PickerCategoria.Items.Clear();
+
+                        // Adiciona item padrão
+                        PickerCategoria.Items.Add("Selecione uma categoria");
+                        categorias.Add(new Categoria { idCategoria = 0, nomeCategoria = "Selecione uma categoria" });
+
+                        // Adiciona categorias da API
+                        if (categoriasApi != null)
+                        {
+                            foreach (var categoria in categoriasApi)
+                            {
+                                PickerCategoria.Items.Add(categoria.nomeCategoria);
+                                categorias.Add(categoria);
+                            }
+                        }
+
+                        // Define o primeiro item como selecionado por padrão
+                        PickerCategoria.SelectedIndex = 0;
+                    });
                 }
                 else
                 {
                     // Fallback: se não conseguir carregar, adiciona categorias básicas
-                    await DisplayAlert("Aviso", "Não foi possível carregar as categorias. Usando categorias padrão.", "OK");
-                    CarregarCategoriasPadrao();
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await DisplayAlert("Aviso", "Não foi possível carregar as categorias. Usando categorias padrão.", "OK");
+                        CarregarCategoriasPadrao();
+                    });
                 }
             }
-            catch (Exception)
+            catch (HttpRequestException ex)
             {
-                await DisplayAlert("Erro", "Erro ao carregar categorias. Usando categorias padrão.", "OK");
-                CarregarCategoriasPadrao();
+                await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    await DisplayAlert("Erro de Conexão", $"Erro ao conectar com a API: {ex.Message}", "OK");
+                    CarregarCategoriasPadrao();
+                });
+            }
+            catch (TaskCanceledException)
+            {
+                await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    await DisplayAlert("Timeout", "Timeout ao carregar categorias. Usando categorias padrão.", "OK");
+                    CarregarCategoriasPadrao();
+                });
+            }
+            catch (Exception ex)
+            {
+                await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    await DisplayAlert("Erro", $"Erro ao carregar categorias: {ex.Message}", "OK");
+                    CarregarCategoriasPadrao();
+                });
             }
         }
 
         private void CarregarCategoriasPadrao()
         {
-            // Categorias padrão caso a API falhe
-            categorias.Clear();
-            PickerCategoria.Items.Clear();
-            
-            var categoriasDefault = new List<Categoria>
+            try
             {
-                new Categoria { idCategoria = 0, nomeCategoria = "Selecione" },
-                new Categoria { idCategoria = 1, nomeCategoria = "Outros" }
-            };
-            
-            foreach (var categoria in categoriasDefault)
-            {
-                PickerCategoria.Items.Add(categoria.nomeCategoria);
-                categorias.Add(categoria);
+                // Categorias padrão caso a API falhe
+                categorias.Clear();
+                PickerCategoria.Items.Clear();
+
+                var categoriasDefault = new List<Categoria>
+                {
+                    new Categoria { idCategoria = 0, nomeCategoria = "Selecione" },
+                    new Categoria { idCategoria = 1, nomeCategoria = "Outros" }
+                };
+
+                foreach (var categoria in categoriasDefault)
+                {
+                    PickerCategoria.Items.Add(categoria.nomeCategoria);
+                    categorias.Add(categoria);
+                }
+
+                PickerCategoria.SelectedIndex = 0;
             }
-            
-            PickerCategoria.SelectedIndex = 0;
+            catch (Exception ex)
+            {
+                // Log do erro mas não trava a aplicação
+                System.Diagnostics.Debug.WriteLine($"Erro ao carregar categorias padrão: {ex.Message}");
+            }
         }
 
         private async void OnRefreshCategoriasClicked(object sender, EventArgs e)
@@ -110,30 +153,44 @@ namespace Rently
 
         private void OnAluguelClicked(object sender, EventArgs e)
         {
-            isAluguelSelected = true;
-            unidadeDePreco = "dia"; // Para aluguel, normalmente é por dia/mês
+            try
+            {
+                isAluguelSelected = true;
+                unidadeDePreco = "dia"; // Para aluguel, normalmente é por dia/mês
 
-            // Estilo para Aluguel selecionado
-            AluguelBorder.BackgroundColor = Colors.DarkGray;
-            AluguelButton.TextColor = Colors.White;
+                // Estilo para Aluguel selecionado
+                AluguelBorder.BackgroundColor = Colors.DarkGray;
+                AluguelButton.TextColor = Colors.White;
 
-            // Estilo para Venda não selecionado
-            VendaBorder.BackgroundColor = Colors.Transparent;
-            VendaButton.TextColor = Colors.Black;
+                // Estilo para Venda não selecionado
+                VendaBorder.BackgroundColor = Colors.Transparent;
+                VendaButton.TextColor = Colors.Black;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao selecionar aluguel: {ex.Message}");
+            }
         }
 
         private void OnVendaClicked(object sender, EventArgs e)
         {
-            isAluguelSelected = false;
-            unidadeDePreco = "unidade"; // Para venda, normalmente é por unidade
+            try
+            {
+                isAluguelSelected = false;
+                unidadeDePreco = "unidade"; // Para venda, normalmente é por unidade
 
-            // Estilo para Venda selecionado
-            VendaBorder.BackgroundColor = Colors.DarkGray;
-            VendaButton.TextColor = Colors.White;
+                // Estilo para Venda selecionado
+                VendaBorder.BackgroundColor = Colors.DarkGray;
+                VendaButton.TextColor = Colors.White;
 
-            // Estilo para Aluguel não selecionado
-            AluguelBorder.BackgroundColor = Colors.Transparent;
-            AluguelButton.TextColor = Colors.Black;
+                // Estilo para Aluguel não selecionado
+                AluguelBorder.BackgroundColor = Colors.Transparent;
+                AluguelButton.TextColor = Colors.Black;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao selecionar venda: {ex.Message}");
+            }
         }
 
         private async void OnCadastrarClicked(object sender, EventArgs e)
@@ -159,273 +216,388 @@ namespace Rently
                     await DisplayAlert("Erro", "Selecione uma categoria válida", "OK");
                     return;
                 }
-                
+
                 var categoriaSelecionada = categorias[indiceSelecionado];
                 idCategoria = categoriaSelecionada.idCategoria;
-
-                // Montar endereço completo para descrição
-                var enderecoCompleto = $"{EntryRua.Text}, {EntryNumero.Text} - {EntryBairro.Text}, {EntryCidade.Text}/{EntryUf.Text} - CEP: {EntryCep.Text}";
 
                 // Criar objeto do produto conforme esperado pela API
                 var produto = new
                 {
                     idUsuario = idUsuario,
                     idCategoria = idCategoria,
-                    nome = EntryNomeProduto.Text.Trim(),
+                    nome = EntryNomeProduto.Text?.Trim() ?? "",
                     preco = preco,
                     idVendaAluguel = isAluguelSelected ? 1 : 2, // 1 = Aluguel, 2 = Venda
                     idEndereco = idEndereco, // null por enquanto
-                    descricaoProduto = EntryDescricaoProduto,
-                    unidadeDePreco = unidadeDePreco
+                    descricaoProduto = EntryDescricaoProduto.Text?.Trim() ?? "",
+                    unidadeDePreco = unidadeDePreco,
+                    // Endereço separado para facilitar o tratamento na API
+                    endereco = new
+                    {
+                        rua = EntryRua.Text?.Trim() ?? "",
+                        numero = EntryNumero.Text?.Trim() ?? "",
+                        bairro = EntryBairro.Text?.Trim() ?? "",
+                        cidade = EntryCidade.Text?.Trim() ?? "",
+                        uf = EntryUf.Text?.Trim().ToUpper() ?? "",
+                        cep = EntryCep.Text?.Trim() ?? ""
+                    }
                 };
 
-                var json = JsonConvert.SerializeObject(produto);
+                var json = JsonConvert.SerializeObject(produto, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Include,
+                    Formatting = Formatting.None
+                });
+
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 using var client = new HttpClient();
-                client.Timeout = TimeSpan.FromSeconds(30); // Timeout de 30 segundos
+                client.Timeout = TimeSpan.FromSeconds(30);
+
+                // Headers adicionais que podem ser necessários
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
 
                 var response = await client.PostAsync(apiUrlProdutos, content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     await DisplayAlert("Sucesso", "Produto cadastrado com sucesso!", "OK");
-                    
+
                     // Limpar formulário após sucesso
                     LimparCampos();
                 }
                 else
                 {
-                    string errorContent = await response.Content.ReadAsStringAsync();
+                    string errorContent = "";
+                    try
+                    {
+                        errorContent = await response.Content.ReadAsStringAsync();
+                    }
+                    catch
+                    {
+                        errorContent = "Não foi possível ler o erro do servidor";
+                    }
+
                     await DisplayAlert("Erro", $"Falha ao cadastrar produto:\nStatus: {response.StatusCode}\nDetalhes: {errorContent}", "OK");
                 }
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException ex)
             {
-                await DisplayAlert("Erro de Conexão", "Não foi possível conectar ao servidor. Verifique sua conexão.", "OK");
+                await DisplayAlert("Erro de Conexão", $"Não foi possível conectar ao servidor:\n{ex.Message}", "OK");
             }
             catch (TaskCanceledException)
             {
                 await DisplayAlert("Timeout", "A requisição demorou muito para responder. Verifique sua conexão.", "OK");
             }
+            catch (JsonException ex)
+            {
+                await DisplayAlert("Erro de Dados", $"Erro ao processar dados:\n{ex.Message}", "OK");
+            }
             catch (Exception ex)
             {
-                await DisplayAlert("Erro", $"Erro inesperado:\n{ex.Message}", "OK");
+                await DisplayAlert("Erro", $"Erro inesperado:\n{ex.Message}\n\nStack Trace:\n{ex.StackTrace}", "OK");
             }
         }
 
         private decimal ExtrairPreco(string precoTexto)
         {
-            if (string.IsNullOrWhiteSpace(precoTexto))
+            try
+            {
+                if (string.IsNullOrWhiteSpace(precoTexto))
+                    return 0;
+
+                // Remove "R$", espaços e símbolos, mantendo apenas números e vírgula/ponto
+                var precoLimpo = precoTexto
+                    .Replace("R$", "")
+                    .Replace(" ", "")
+                    .Replace(".", "");
+
+                // Converte vírgula para ponto para parsing
+                precoLimpo = precoLimpo.Replace(",", ".");
+
+                if (decimal.TryParse(precoLimpo, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal preco))
+                    return preco;
+
                 return 0;
-
-            // Remove "R$", espaços e símbolos, mantendo apenas números e vírgula/ponto
-            var precoLimpo = precoTexto
-                .Replace("R$", "")
-                .Replace(" ", "")
-                .Replace(".", "");
-
-            // Converte vírgula para ponto para parsing
-            precoLimpo = precoLimpo.Replace(",", ".");
-
-            if (decimal.TryParse(precoLimpo, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal preco))
-                return preco;
-
-            return 0;
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         private bool ValidarCampos()
         {
-            var camposObrigatorios = new List<(Entry entry, string nomeCampo)>
+            try
             {
-                (EntryNomeProduto, "Nome do Produto"),
-                (EntryPreco, "Preço"),
-                (EntryRua, "Rua"),
-                (EntryDescricaoProduto, "Descricao"),
-                (EntryNumero, "Número"),
-                (EntryBairro, "Bairro"),
-                (EntryCep, "CEP"),
-                (EntryUf, "UF"),
-                (EntryCidade, "Cidade"),
-            };
-
-            var camposVazios = new List<string>();
-
-            foreach (var (entry, nomeCampo) in camposObrigatorios)
-            {
-                if (string.IsNullOrWhiteSpace(entry.Text))
+                var camposObrigatorios = new List<(Entry entry, string nomeCampo)>
                 {
-                    camposVazios.Add(nomeCampo);
-                    // Destaca o campo vazio com borda vermelha
-                    DestacarCampoVazio(entry);
+                    (EntryNomeProduto, "Nome do Produto"),
+                    (EntryPreco, "Preço"),
+                    (EntryRua, "Rua"),
+                    (EntryDescricaoProduto, "Descrição"),
+                    (EntryNumero, "Número"),
+                    (EntryBairro, "Bairro"),
+                    (EntryCep, "CEP"),
+                    (EntryUf, "UF"),
+                    (EntryCidade, "Cidade"),
+                };
+
+                var camposVazios = new List<string>();
+
+                foreach (var (entry, nomeCampo) in camposObrigatorios)
+                {
+                    if (entry == null || string.IsNullOrWhiteSpace(entry.Text))
+                    {
+                        camposVazios.Add(nomeCampo);
+                        // Destaca o campo vazio com borda vermelha
+                        if (entry != null)
+                            DestacarCampoVazio(entry);
+                    }
+                    else
+                    {
+                        // Remove o destaque se o campo foi preenchido
+                        RemoverDestaqueCampo(entry);
+                    }
+                }
+
+                // Validar categoria separadamente
+                if (PickerCategoria.SelectedIndex <= 0 || PickerCategoria.SelectedItem == null)
+                {
+                    camposVazios.Add("Categoria");
+                    DestacarCampoPicker(PickerCategoria);
                 }
                 else
                 {
-                    // Remove o destaque se o campo foi preenchido
-                    RemoverDestaqueCampo(entry);
+                    RemoverDestaqueCampoPicker(PickerCategoria);
                 }
-            }
 
-            // Validar categoria separadamente
-            if (PickerCategoria.SelectedIndex <= 0 || PickerCategoria.SelectedItem == null)
-            {
-                camposVazios.Add("Categoria");
-                DestacarCampoPicker(PickerCategoria);
-            }
-            else
-            {
-                RemoverDestaqueCampoPicker(PickerCategoria);
-            }
+                if (camposVazios.Any())
+                {
+                    string mensagem = $"Os seguintes campos são obrigatórios:\n• {string.Join("\n• ", camposVazios)}";
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await DisplayAlert("Campos Obrigatórios", mensagem, "OK");
+                    });
+                    return false;
+                }
 
-            if (camposVazios.Any())
+                // Validações adicionais
+                if (!ValidarPreco(EntryPreco.Text))
+                {
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await DisplayAlert("Erro", "Por favor, insira um preço válido.", "OK");
+                        DestacarCampoVazio(EntryPreco);
+                    });
+                    return false;
+                }
+
+                if (!ValidarCep(EntryCep.Text))
+                {
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await DisplayAlert("Erro", "Por favor, insira um CEP válido no formato 00000-000.", "OK");
+                        DestacarCampoVazio(EntryCep);
+                    });
+                    return false;
+                }
+
+                if (EntryUf.Text?.Length != 2)
+                {
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await DisplayAlert("Erro", "UF deve conter exatamente 2 caracteres.", "OK");
+                        DestacarCampoVazio(EntryUf);
+                    });
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
             {
-                string mensagem = $"Os seguintes campos são obrigatórios:\n• {string.Join("\n• ", camposVazios)}";
-                DisplayAlert("Campos Obrigatórios", mensagem, "OK");
+                System.Diagnostics.Debug.WriteLine($"Erro na validação: {ex.Message}");
                 return false;
             }
-
-            // Validações adicionais
-            if (!ValidarPreco(EntryPreco.Text))
-            {
-                DisplayAlert("Erro", "Por favor, insira um preço válido.", "OK");
-                DestacarCampoVazio(EntryPreco);
-                return false;
-            }
-
-            if (!ValidarCep(EntryCep.Text))
-            {
-                DisplayAlert("Erro", "Por favor, insira um CEP válido no formato 00000-000.", "OK");
-                DestacarCampoVazio(EntryCep);
-                return false;
-            }
-
-            if (EntryUf.Text?.Length != 2)
-            {
-                DisplayAlert("Erro", "UF deve conter exatamente 2 caracteres.", "OK");
-                DestacarCampoVazio(EntryUf);
-                return false;
-            }
-
-            return true;
         }
 
         private bool ValidarPreco(string preco)
         {
-            // Remove caracteres não numéricos exceto vírgula e ponto
-            string precoLimpo = preco?.Replace("R$", "").Replace(" ", "").Replace(".", "").Replace(",", ".");
+            try
+            {
+                // Remove caracteres não numéricos exceto vírgula e ponto
+                string precoLimpo = preco?.Replace("R$", "").Replace(" ", "").Replace(".", "").Replace(",", ".");
 
-            return decimal.TryParse(precoLimpo, out decimal valor) && valor > 0;
+                return decimal.TryParse(precoLimpo, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valor) && valor > 0;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private bool ValidarCep(string cep)
         {
-            // Verifica se o CEP está no formato correto: 00000-000
-            return !string.IsNullOrWhiteSpace(cep) &&
-                   cep.Length == 9 &&
-                   cep.Contains('-') &&
-                   cep.Replace("-", "").All(char.IsDigit);
+            try
+            {
+                // Verifica se o CEP está no formato correto: 00000-000
+                return !string.IsNullOrWhiteSpace(cep) &&
+                       cep.Length == 9 &&
+                       cep.Contains('-') &&
+                       cep.Replace("-", "").All(char.IsDigit);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private void DestacarCampoVazio(Entry entry)
         {
-            // Encontra o Border pai do Entry e muda a cor da borda
-            if (entry.Parent is Border border)
+            try
             {
-                border.Stroke = Colors.Red;
-                border.StrokeThickness = 2;
+                // Encontra o Border pai do Entry e muda a cor da borda
+                if (entry?.Parent is Border border)
+                {
+                    border.Stroke = Colors.Red;
+                    border.StrokeThickness = 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao destacar campo: {ex.Message}");
             }
         }
 
         private void RemoverDestaqueCampo(Entry entry)
         {
-            // Restaura a cor original da borda
-            if (entry.Parent is Border border)
+            try
             {
-                border.Stroke = Colors.Gray;
-                border.StrokeThickness = 1;
+                // Restaura a cor original da borda
+                if (entry?.Parent is Border border)
+                {
+                    border.Stroke = Colors.Gray;
+                    border.StrokeThickness = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao remover destaque: {ex.Message}");
             }
         }
 
         private void DestacarCampoPicker(Picker picker)
         {
-            // Encontra o Border pai do Picker e muda a cor da borda
-            if (picker.Parent is Border border)
+            try
             {
-                border.Stroke = Colors.Red;
-                border.StrokeThickness = 2;
+                // Encontra o Border pai do Picker e muda a cor da borda
+                if (picker?.Parent is Border border)
+                {
+                    border.Stroke = Colors.Red;
+                    border.StrokeThickness = 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao destacar picker: {ex.Message}");
             }
         }
 
         private void RemoverDestaqueCampoPicker(Picker picker)
         {
-            // Restaura a cor original da borda
-            if (picker.Parent is Border border)
+            try
             {
-                border.Stroke = Colors.Gray;
-                border.StrokeThickness = 1;
+                // Restaura a cor original da borda
+                if (picker?.Parent is Border border)
+                {
+                    border.Stroke = Colors.Gray;
+                    border.StrokeThickness = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao remover destaque do picker: {ex.Message}");
             }
         }
 
         private void LimparCampos()
         {
-            EntryNomeProduto.Text = string.Empty;
-            EntryPreco.Text = string.Empty;
-            PickerCategoria.SelectedIndex = 0; // Volta para "Selecione uma categoria"
-            EntryDescricaoProduto.Text = string.Empty;
-            EntryRua.Text = string.Empty;
-            EntryNumero.Text = string.Empty;
-            EntryBairro.Text = string.Empty;
-            EntryCep.Text = string.Empty;
-            EntryUf.Text = string.Empty;
-            EntryCidade.Text = string.Empty;
-
-            // Reseta o toggle para Aluguel
-            OnAluguelClicked(null, null);
-
-            // Remove destaques de erro
-            var entries = new[] { EntryNomeProduto, EntryPreco, EntryDescricaoProduto, EntryRua, EntryNumero, EntryBairro, EntryCep, EntryUf, EntryCidade };
-            foreach (var entry in entries)
+            try
             {
-                RemoverDestaqueCampo(entry);
+                EntryNomeProduto.Text = string.Empty;
+                EntryPreco.Text = string.Empty;
+                PickerCategoria.SelectedIndex = 0; // Volta para "Selecione uma categoria"
+                EntryDescricaoProduto.Text = string.Empty;
+                EntryRua.Text = string.Empty;
+                EntryNumero.Text = string.Empty;
+                EntryBairro.Text = string.Empty;
+                EntryCep.Text = string.Empty;
+                EntryUf.Text = string.Empty;
+                EntryCidade.Text = string.Empty;
+
+                // Reseta o toggle para Aluguel
+                OnAluguelClicked(null, null);
+
+                // Remove destaques de erro
+                var entries = new[] { EntryNomeProduto, EntryPreco, EntryDescricaoProduto, EntryRua, EntryNumero, EntryBairro, EntryCep, EntryUf, EntryCidade };
+                foreach (var entry in entries)
+                {
+                    if (entry != null)
+                        RemoverDestaqueCampo(entry);
+                }
+
+                // Remove destaque do Picker
+                RemoverDestaqueCampoPicker(PickerCategoria);
             }
-            
-            // Remove destaque do Picker
-            RemoverDestaqueCampoPicker(PickerCategoria);
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao limpar campos: {ex.Message}");
+            }
         }
 
         private void EntryPreco_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (_isUpdating) return;
-
-            var entry = sender as Entry;
-            var newText = e.NewTextValue;
-
-            if (string.IsNullOrEmpty(newText))
-                return;
-
-            _isUpdating = true;
-
-            // Remove caracteres não numéricos
-            string numericText = new string(newText.Where(char.IsDigit).ToArray());
-
-            if (string.IsNullOrEmpty(numericText))
+            try
             {
-                entry.Text = "";
+                if (_isUpdating) return;
+
+                var entry = sender as Entry;
+                var newText = e.NewTextValue;
+
+                if (string.IsNullOrEmpty(newText))
+                    return;
+
+                _isUpdating = true;
+
+                // Remove caracteres não numéricos
+                string numericText = new string(newText.Where(char.IsDigit).ToArray());
+
+                if (string.IsNullOrEmpty(numericText))
+                {
+                    entry.Text = "";
+                    _isUpdating = false;
+                    return;
+                }
+
+                // Converte para decimal e formata
+                if (decimal.TryParse(numericText, out decimal value))
+                {
+                    decimal currency = value / 100;
+
+                    // Usa ToString com formato C2 (2 casas decimais)
+                    var cultureBR = new CultureInfo("pt-BR");
+                    entry.Text = currency.ToString("C2", cultureBR);
+                    entry.CursorPosition = entry.Text.Length;
+                }
+
                 _isUpdating = false;
-                return;
             }
-
-            // Converte para decimal e formata
-            if (decimal.TryParse(numericText, out decimal value))
+            catch (Exception ex)
             {
-                decimal currency = value / 100;
-
-                // Usa ToString com formato C2 (2 casas decimais)
-                entry.Text = currency.ToString("C2", new CultureInfo("pt-BR"));
-                entry.CursorPosition = entry.Text.Length;
+                _isUpdating = false;
+                System.Diagnostics.Debug.WriteLine($"Erro ao formatar preço: {ex.Message}");
             }
-
-            _isUpdating = false;
         }
     }
 }

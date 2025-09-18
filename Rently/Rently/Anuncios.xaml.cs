@@ -8,5 +8,9 @@ public partial class Anuncios : ContentPage
 
         // Conectar eventos
     }
-   
+
+    private async void CriarProdutos(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("Produtos");
+    }
 }

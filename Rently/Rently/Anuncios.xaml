@@ -21,7 +21,8 @@
                             TextColor="White"
                             FontSize="16"
                             FontAttributes="Bold"
-                            HeightRequest="60"/>
+                            HeightRequest="60"
+                            Clicked="CriarProdutos"/>
                 </Frame>
 
                 <!-- Seção Meus Serviços Ativos -->
