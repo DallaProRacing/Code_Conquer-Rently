@@ -60,6 +60,7 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -69,11 +70,17 @@
 		<Compile Update="Dashboard.xaml.cs">
 		  <DependentUpon>Dashboard.xaml</DependentUpon>
 		</Compile>
+		<Compile Update="Detalhes.xaml.cs">
+		  <DependentUpon>Detalhes.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 		<MauiXaml Update="Cadastro.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Detalhes.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Produtos.xaml">
       <Generator>MSBuild:Compile</Generator>

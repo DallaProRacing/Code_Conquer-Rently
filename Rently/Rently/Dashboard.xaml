@@ -259,7 +259,8 @@
                                     CornerRadius="20"
                                     WidthRequest="80"
                                     HeightRequest="40"
-                                    FontAttributes="Bold"/>
+                                    FontAttributes="Bold"
+                            Clicked="VerDetalhes"/>
                         </StackLayout>
                     </Frame>
 
@@ -305,7 +306,8 @@
                                     CornerRadius="20"
                                     WidthRequest="80"
                                     HeightRequest="40"
-                                    FontAttributes="Bold"/>
+                                    FontAttributes="Bold"
+                            Clicked="VerDetalhes"/>
                         </StackLayout>
                     </Frame>
 
@@ -351,7 +353,8 @@
                                     CornerRadius="20"
                                     WidthRequest="80"
                                     HeightRequest="40"
-                                    FontAttributes="Bold"/>
+                                    FontAttributes="Bold"
+                            Clicked="VerDetalhes"/>
                         </StackLayout>
                     </Frame>
                 </StackLayout>
