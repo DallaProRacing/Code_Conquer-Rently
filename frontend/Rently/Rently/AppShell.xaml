@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Rently.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Rently"
+    Title="Rently"
+    Shell.BackgroundColor="Orange"
+    Shell.NavBarHasShadow="False"
+    Shell.ForegroundColor="White"
+    >
+
+    <ShellContent
+        Title=""
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage"/>
+
+    <Shell.ToolbarItems>
+        <ToolbarItem x:Name="Inicio"
+                     Text="Início"
+                     Order="Secondary"
+                     Priority="0"
+                     Clicked="Inicio_Clicked_1"
+            />
+        <ToolbarItem x:Name="Anuncios"
+             Text="Anúncio"
+             Order="Secondary"
+             Priority="0"
+             Clicked="Anuncios_Clicked"
+            />
+        <ToolbarItem x:Name="Perfil"
+             Text="Perfil"
+             Order="Secondary"
+             Priority="0"
+             Clicked="Perfil_Clicked"
+            />
+    </Shell.ToolbarItems>
+
+</Shell>

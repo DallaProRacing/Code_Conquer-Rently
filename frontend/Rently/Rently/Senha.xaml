@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rently.Senha"
+             BackgroundColor="White"
+             Title="">
+    
+    <ScrollView>
+        <VerticalStackLayout
+         Padding="30"
+         Spacing="20"
+         VerticalOptions="Center">
+
+            <!-- Logo -->
+            <Image Source="logo.png" 
+                WidthRequest="100"
+                Aspect="AspectFit" 
+                HorizontalOptions="Center" 
+                VerticalOptions="Center" 
+         />
+
+
+            <Label Text="Bem-vindo"
+                HorizontalOptions="Center"
+                TextColor="Orange"
+                FontSize="20" 
+         />
+
+            <!-- Campo Senha -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Senha"
+                FontSize="12"
+                TextColor="Orange"
+                FontAttributes="Bold"/>
+
+                <Border BackgroundColor="Transparent"
+                    StrokeShape="RoundRectangle 8"
+                    Stroke="Gray"
+                    StrokeThickness="1">
+                    <Grid>
+                        <Entry x:Name="SenhaEntry"
+                            Placeholder=""
+                            IsPassword="True"
+                            FontSize="12"
+                            TextColor="Black"
+                            PlaceholderColor="Gray"
+                            BackgroundColor="Transparent"
+                            HeightRequest="50"/>
+                        <Button x:Name="ToggleSenhaButton"
+                            Text="👁"
+                            FontSize="10"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center"
+                            Padding="15,0"
+                            Clicked="ToggleSenhaButton_Clicked"
+                                />
+                    </Grid>
+                    
+                </Border>
+                <Button Text="Esqueceu sua Senha?"
+                    FontSize="12"
+                    FontAttributes="Bold"
+                    TextColor="Orange"
+                    BackgroundColor="Transparent"                     
+                    Padding="0"
+                    HorizontalOptions="Center"
+                    />
+            </VerticalStackLayout>
+            
+
+            <!-- Botão Login -->
+            <Button Text="Entrar"
+                 FontSize="16"
+                 FontAttributes="Bold"
+                 TextColor="White"
+                 BackgroundColor="Orange"
+                 CornerRadius="8" 
+                 Clicked="Button_Clicked"
+                 HeightRequest="50"
+                 Margin="0,20,0,0"/>
+
+           
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

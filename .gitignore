@@ -474,3 +474,6 @@ AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
 _pkginfo.txt
+
+node_modules/
+package-lock.json
