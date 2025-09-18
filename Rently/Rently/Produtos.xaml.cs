@@ -11,7 +11,7 @@ namespace Rently
     {
         private string apiUrlProdutos = "http://localhost:4000/produtos";
         private string apiUrlCategorias = "http://localhost:4000/categorias";
-        private int idUsuario = 2;     // Temporário - pegar do login/sessão depois
+        private int idUsuario = 10;     // Temporário - pegar do login/sessão depois
         private int idCategoria = 1;   // Será dinâmico baseado na categoria escolhida
         private int? idEndereco = null; // Pode ser null se não tiver endereço cadastrado
         private string unidadeDePreco = "dia"; // "dia", "mês", "unidade", etc.
